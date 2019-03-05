@@ -12,6 +12,8 @@ public enum  EmBusinessError implements CommonError
     PARAMETER_VALIDATION_ERROR(10001, "参数错误"),
 
     USER_NOT_EXIST_OR_PWD_ERROR(10002, "用户不存在或密码错误"),
+
+    QUOTE_NOT_EXIST_ERROR(20002, "名言不存在"),
     // 系统错误
     SYSTEM_ERROR(50000, "系统错误"),
 

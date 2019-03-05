@@ -21,4 +21,9 @@ public class UserService
     {
         return userMapper.selectUser(id);
     }
+
+    public int insert(User user)
+    {
+        return userMapper.insert(user);
+    }
 }
