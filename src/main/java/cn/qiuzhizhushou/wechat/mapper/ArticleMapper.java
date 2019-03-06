@@ -1,5 +1,6 @@
 package cn.qiuzhizhushou.wechat.mapper;
 
+import cn.qiuzhizhushou.pojo.ArticleSimple;
 import cn.qiuzhizhushou.wechat.model.Article;
 import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Result;
@@ -33,6 +34,6 @@ public interface ArticleMapper
     )
     Article findById(int id);
 
-    // todo
-    ArrayList<Article> list();
+    @Select("select article.*, author.name as 'author.name', author.dynasty as 'author.dynasty' from article, author where article.author_id = author.id limit 10")
+    ArrayList<ArticleSimple> list();
 }

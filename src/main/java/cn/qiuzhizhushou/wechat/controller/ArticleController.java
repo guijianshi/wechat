@@ -23,6 +23,6 @@ public class ArticleController extends BaseController
     @RequestMapping("/list")
     private JsonResponse list(@RequestParam int page)
     {
-        return JsonResponse.success(1);
+        return JsonResponse.success(articleService.list());
     }
 }

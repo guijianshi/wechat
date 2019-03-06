@@ -1,5 +1,6 @@
 package cn.qiuzhizhushou.wechat.service;
 
+import cn.qiuzhizhushou.pojo.ArticleSimple;
 import cn.qiuzhizhushou.wechat.mapper.ArticleMapper;
 import cn.qiuzhizhushou.wechat.model.Article;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class ArticleService
     @Autowired
     ArticleMapper articleMapper;
 
-    public ArrayList<Article> list()
+    public ArrayList<ArticleSimple> list()
     {
         return  articleMapper.list();
     }

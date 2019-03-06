@@ -18,6 +18,8 @@ public class Author
 
     private String url;
 
+    private String dynasty;
+
     private String intro;
 
     private Date createdAt;
@@ -62,6 +64,16 @@ public class Author
     public void setUrl(String url)
     {
         this.url = url;
+    }
+
+    public String getDynasty()
+    {
+        return dynasty;
+    }
+
+    public void setDynasty(String dynasty)
+    {
+        this.dynasty = dynasty;
     }
 
     public String getIntro()

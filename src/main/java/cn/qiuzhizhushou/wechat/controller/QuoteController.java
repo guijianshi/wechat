@@ -1,5 +1,6 @@
 package cn.qiuzhizhushou.wechat.controller;
 
+import cn.qiuzhizhushou.pojo.QuoteAuthorAndArticle;
 import cn.qiuzhizhushou.wechat.error.BusinessException;
 import cn.qiuzhizhushou.wechat.error.EmBusinessError;
 import cn.qiuzhizhushou.wechat.model.Quote;
@@ -41,6 +42,7 @@ public class QuoteController extends BaseController
         if (null == quote) {
             throw new BusinessException(EmBusinessError.QUOTE_NOT_EXIST_ERROR);
         }
-        return JsonResponse.success(quote);
+        QuoteAuthorAndArticle quoteAuthorAndArticle = new QuoteAuthorAndArticle(quote);
+        return JsonResponse.success(quoteAuthorAndArticle);
     }
 }
