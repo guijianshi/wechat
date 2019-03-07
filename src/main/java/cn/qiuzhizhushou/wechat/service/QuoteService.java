@@ -5,6 +5,7 @@ import cn.qiuzhizhushou.wechat.model.Quote;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -23,6 +24,12 @@ public class QuoteService
     {
         return quoteMapper.findById(id);
     }
+
+    public List<Quote> findByArticleId(int articleId)
+    {
+        return quoteMapper.findByArticleId(articleId);
+    }
+
 
     /**
      * 随机取一个名言

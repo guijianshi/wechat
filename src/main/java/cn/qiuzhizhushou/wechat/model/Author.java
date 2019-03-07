@@ -1,5 +1,8 @@
 package cn.qiuzhizhushou.wechat.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Date;
 
 /**
@@ -8,6 +11,7 @@ import java.util.Date;
  * Date: 19/3/5
  * Time: 下午1:34
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Author
 {
     private Integer id;

@@ -20,8 +20,13 @@ public class ArticleService
     @Autowired
     ArticleMapper articleMapper;
 
-    public ArrayList<ArticleSimple> list()
+    public ArrayList<Article> list()
     {
-        return  articleMapper.list();
+        return articleMapper.list();
+    }
+
+    public Article find(int id)
+    {
+        return articleMapper.findOneById(id);
     }
 }

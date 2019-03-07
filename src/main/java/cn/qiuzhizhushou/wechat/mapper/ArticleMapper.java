@@ -2,14 +2,12 @@ package cn.qiuzhizhushou.wechat.mapper;
 
 import cn.qiuzhizhushou.pojo.ArticleSimple;
 import cn.qiuzhizhushou.wechat.model.Article;
-import org.apache.ibatis.annotations.One;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IDEA.
@@ -35,5 +33,18 @@ public interface ArticleMapper
     Article findById(int id);
 
     @Select("select article.*, author.name as 'author.name', author.dynasty as 'author.dynasty' from article, author where article.author_id = author.id limit 10")
-    ArrayList<ArticleSimple> list();
+    ArrayList<Article> list();
+
+    @Select("select article.*, author.name as 'author.name', author.dynasty as 'author.dynasty' from article, author where article.author_id = author.id and article.id=#{id} ")
+    @Results(
+            {
+                    @Result(column = "id", property = "quotes",
+                        many = @Many(
+                                select = "cn.qiuzhizhushou.wechat.mapper.QuoteMapper.findByArticleId",
+                                fetchType = FetchType.EAGER
+                        )
+                    )
+            }
+    )
+    Article findOneById(int id);
 }

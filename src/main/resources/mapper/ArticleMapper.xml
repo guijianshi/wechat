@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.qiuzhizhushou.wechat.mapper.ArticleMapper">
+    <resultMap id="articleAuthorTagMap" type="cn.qiuzhizhushou.wechat.model.Article">
+        <id column="id" property="id"></id>
+        <result column="title" property="title"></result>
+        <result column="content" property="content"></result>
+    </resultMap>
+    <select id="list" resultType="articleAuthorTagMap">
+        select * from article limit 10
+    </select>
+    <select id="findOneById" resultType="cn.qiuzhizhushou.wechat.model.Article">
+        select * from article where id = #{id}
+    </select>
+
+
+</mapper>

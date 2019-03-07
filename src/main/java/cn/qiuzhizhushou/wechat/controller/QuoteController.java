@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * Created by IDEA.
  * User: mc
@@ -44,5 +46,15 @@ public class QuoteController extends BaseController
         }
         QuoteAuthorAndArticle quoteAuthorAndArticle = new QuoteAuthorAndArticle(quote);
         return JsonResponse.success(quoteAuthorAndArticle);
+    }
+
+    @RequestMapping(value = "/findByArticleId/{articleId}", method = RequestMethod.GET)
+    public JsonResponse findByArticleId(@PathVariable int articleId) throws BusinessException
+    {
+        List<Quote> quotes = quoteService.findByArticleId(articleId);
+        if (null == quotes) {
+            throw new BusinessException(EmBusinessError.QUOTE_NOT_EXIST_ERROR);
+        }
+        return JsonResponse.success(quotes);
     }
 }

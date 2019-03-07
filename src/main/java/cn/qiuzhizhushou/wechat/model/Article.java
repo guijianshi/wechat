@@ -1,8 +1,11 @@
 package cn.qiuzhizhushou.wechat.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.ibatis.annotations.Result;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by IDEA.
@@ -10,6 +13,7 @@ import java.util.Date;
  * Date: 19/3/5
  * Time: 下午7:14
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Article
 {
     private Integer id;
@@ -20,11 +24,25 @@ public class Article
 
     private String content;
 
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss",timezone="GMT+8")
     private Date createdAt;
 
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss",timezone="GMT+8")
     private Date updatedAt;
 
     private Author author;
+
+    private List<Quote> quotes;
+
+    public void setQuotes(List<Quote> quotes)
+    {
+        this.quotes = quotes;
+    }
+
+    public List<Quote> getQuotes()
+    {
+        return quotes;
+    }
 
     public Integer getId()
     {

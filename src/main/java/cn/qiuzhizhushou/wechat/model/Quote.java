@@ -1,11 +1,14 @@
 package cn.qiuzhizhushou.wechat.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
  * Created by IDEA.
  * User: mc
  * Date: 19/3/5
  * Time: 下午1:26
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Quote
 {
     private Integer id;

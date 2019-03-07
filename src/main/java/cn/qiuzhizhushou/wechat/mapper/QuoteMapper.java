@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Created by IDEA.
  * User: mc
@@ -39,4 +41,7 @@ public interface QuoteMapper
                     )
             })
     Quote findById(int id);
+
+    @Select("select * from quote where article_id=#{articleId}")
+    List<Quote> findByArticleId(int articleId);
 }
