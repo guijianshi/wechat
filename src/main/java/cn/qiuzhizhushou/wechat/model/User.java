@@ -6,7 +6,7 @@ package cn.qiuzhizhushou.wechat.model;
  * Date: 19/3/4
  * Time: 下午4:55
  */
-public class User
+public class User extends Base
 {
     private Integer id;
 

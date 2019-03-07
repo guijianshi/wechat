@@ -1,6 +1,6 @@
 package cn.qiuzhizhushou.wechat.model;
 
-public class Tag
+public class Tag extends Base
 {
     private Integer id;
 

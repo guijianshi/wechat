@@ -14,7 +14,7 @@ import java.util.List;
  * Time: 下午7:14
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Article
+public class Article extends Base
 {
     private Integer id;
 
@@ -29,6 +29,8 @@ public class Article
 
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss",timezone="GMT+8")
     private Date updatedAt;
+
+    private Boolean poem = false;
 
     private Author author;
 
@@ -112,5 +114,35 @@ public class Article
     public void setAuthor(Author author)
     {
         this.author = author;
+    }
+
+    public Boolean getPoem()
+    {
+        return poem;
+    }
+
+    public void setPoem(Boolean poem)
+    {
+        poem = poem;
+    }
+
+    /**
+     * 基础格式
+     */
+    public Article formatBase()
+    {
+        author = null;
+        quotes = null;
+        return this;
+    }
+
+    /**
+     * 完整格式
+     */
+    public Article formatFull()
+    {
+        author = this.getAuthor();
+        quotes = this.getQuotes();
+        return this;
     }
 }

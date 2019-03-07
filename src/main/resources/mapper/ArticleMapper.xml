@@ -8,12 +8,31 @@
         <result column="title" property="title"></result>
         <result column="content" property="content"></result>
     </resultMap>
-    <select id="list" resultType="articleAuthorTagMap">
+    <select id="list" resultType="cn.qiuzhizhushou.wechat.model.Article">
         select * from article limit 10
     </select>
-    <select id="findOneById" resultType="cn.qiuzhizhushou.wechat.model.Article">
+<!--  根据id文章查询  -->
+    <select id="findById" resultMap="articleWithAuthorAndQuotes">
         select * from article where id = #{id}
     </select>
 
+    <!--  根据id查询文章包含作者名言  -->
+    <resultMap id="articleWithAuthorAndQuotes" type="cn.qiuzhizhushou.wechat.model.Article">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <association property="author"
+                     column="author_id"
+                     fetchType="lazy"
+                     select="cn.qiuzhizhushou.wechat.mapper.AuthorMapper.findById"
+        >
+        </association>
+        <collection property="quotes"
+                    column="id"
+                    select="cn.qiuzhizhushou.wechat.mapper.QuoteMapper.findByArticleId"
+                    fetchType="lazy"
+        >
+
+        </collection>
+    </resultMap>
 
 </mapper>

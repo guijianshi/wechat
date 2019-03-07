@@ -24,12 +24,12 @@ public class ArticleController extends BaseController
     @RequestMapping("/list")
     private JsonResponse list(@RequestParam int page)
     {
-        return JsonResponse.success(articleService.list());
+        return JsonResponse.success(null);
     }
 
     @RequestMapping("/{id}")
     private JsonResponse find(@PathVariable int id)
     {
-        return JsonResponse.success(articleService.find(id));
+        return JsonResponse.success(articleService.findById(id).formatFull());
     }
 }

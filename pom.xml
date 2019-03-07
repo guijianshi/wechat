@@ -49,7 +49,7 @@
 			<artifactId>druid</artifactId>
 			<version>1.1.4</version>
 		</dependency>
-
+		<!-- MyBatis 结束 -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

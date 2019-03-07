@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * Time: 下午1:26
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Quote
+public class Quote extends Base
 {
     private Integer id;
 
@@ -81,5 +81,25 @@ public class Quote
     public void setArticle(Article article)
     {
         this.article = article;
+    }
+
+    /**
+     * 基础格式
+     */
+    public Quote formatBase()
+    {
+        author = null;
+        article = null;
+        return this;
+    }
+
+    /**
+     * 完整格式
+     */
+    public Quote formatFull()
+    {
+        author = this.getAuthor();
+        article = this.getArticle();
+        return this;
     }
 }

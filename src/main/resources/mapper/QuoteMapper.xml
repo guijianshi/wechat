@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.qiuzhizhushou.wechat.mapper.QuoteMapper">
+    <select id="findById" resultMap="quoteWithArticleAndAuthor">
+        select * from quote where id=#{id}
+    </select>
+    <resultMap id="quoteWithArticleAndAuthor" type="cn.qiuzhizhushou.wechat.model.Quote">
+        <association property="author" column="author_id"
+                     select="cn.qiuzhizhushou.wechat.mapper.AuthorMapper.findById"
+                     fetchType="lazy"
+        > </association>
+        <association property="article" column="article_id"
+                     select="cn.qiuzhizhushou.wechat.mapper.ArticleMapper.findById"
+                     fetchType="lazy"
+        > </association>
+    </resultMap>
+</mapper>

@@ -14,7 +14,7 @@ public class QuoteAuthorAndArticle
 
     private String content;
 
-    private String articleName;
+    private String articleTitle;
 
     private String authorName;
 
@@ -38,14 +38,14 @@ public class QuoteAuthorAndArticle
         this.content = content;
     }
 
-    public String getArticleName()
+    public String getArticleTitle()
     {
-        return articleName;
+        return articleTitle;
     }
 
-    public void setArticleName(String articleName)
+    public void setArticleTitle(String articleTitle)
     {
-        this.articleName = articleName;
+        this.articleTitle = articleTitle;
     }
 
     public String getAuthorName()
@@ -63,6 +63,6 @@ public class QuoteAuthorAndArticle
         id = quote.getId();
         content = quote.getContent();
         authorName = null == quote.getAuthor() ? "未知" : quote.getAuthor().getName();
-        articleName = null == quote.getArticle() ? "未知": quote.getArticle().getTitle();
+        articleTitle = null == quote.getArticle() ? "未知": quote.getArticle().getTitle();
     }
 }
