@@ -25,3 +25,5 @@
 /build/
 .mvn
 target
+
+/src/main/resources/application.properties

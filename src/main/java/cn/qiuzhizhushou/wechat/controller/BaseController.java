@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
  * Date: 19/3/4
  * Time: 上午10:23
  */
-@RestController
 public class BaseController
 {
     @ExceptionHandler(Exception.class)

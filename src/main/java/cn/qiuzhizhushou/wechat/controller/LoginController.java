@@ -1,11 +1,13 @@
 package cn.qiuzhizhushou.wechat.controller;
 
+import cn.qiuzhizhushou.wechat.error.BusinessException;
 import cn.qiuzhizhushou.wechat.response.JsonResponse;
 import cn.qiuzhizhushou.wechat.service.MiniProgramService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by IDEA.
@@ -13,14 +15,15 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Date: 19/3/7
  * Time: 下午7:36
  */
+@RestController
 public class LoginController extends BaseController
 {
     @Autowired
     MiniProgramService miniProgramService;
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public JsonResponse login(@RequestParam String code)
+
+    @RequestMapping(value = "/wxlogin", method = RequestMethod.GET)
+    public JsonResponse wxlogin(@RequestParam String code) throws BusinessException
     {
-        //todo 微信登入
-        return JsonResponse.success(miniProgramService.login(code));
+        return JsonResponse.success(miniProgramService.wxlogin(code));
     }
 }

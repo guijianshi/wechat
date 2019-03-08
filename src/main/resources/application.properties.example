@@ -9,3 +9,7 @@ spring.datasource.type=com.alibaba.druid.pool.DruidDataSource
 mybatis.config-location=classpath:mybatis/sqlMapConfig.xml
 mybatis.typeAliasesPackage=cn.qiuzhizhushou.wechat.model
 mybatis.mapperLocations=classpath:mapper/*.xml
+
+# 小程序配置 配置
+mini-program.appid=
+mini-program.secret=
