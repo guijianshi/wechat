@@ -3,6 +3,7 @@ package cn.qiuzhizhushou.wechat.mapper;
 import cn.qiuzhizhushou.wechat.model.Article;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IDEA.
@@ -15,4 +16,6 @@ public interface ArticleMapper
     Article findById(int id);
 
     ArrayList<Article> list();
+
+    List<Article> search(String value);
 }

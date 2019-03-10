@@ -1,5 +1,6 @@
 package cn.qiuzhizhushou.wechat.controller;
 
+import cn.qiuzhizhushou.wechat.model.Article;
 import cn.qiuzhizhushou.wechat.response.JsonResponse;
 import cn.qiuzhizhushou.wechat.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * Created by IDEA.
@@ -31,5 +34,12 @@ public class ArticleController extends BaseController
     private JsonResponse find(@PathVariable int id)
     {
         return JsonResponse.success(articleService.findById(id).formatFull());
+    }
+
+    @RequestMapping("search")
+    private JsonResponse search(@RequestParam String column, @RequestParam String value)
+    {
+        List<Article> articles = articleService.search(column, value);
+        return JsonResponse.success(articles);
     }
 }

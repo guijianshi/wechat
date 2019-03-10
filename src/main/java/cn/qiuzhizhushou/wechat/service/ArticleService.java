@@ -5,6 +5,8 @@ import cn.qiuzhizhushou.wechat.model.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by IDEA.
  * User: mc
@@ -25,5 +27,10 @@ public class ArticleService
     public Article findById(int id)
     {
         return articleMapper.findById(id);
+    }
+
+    public List<Article> search(String column, String value)
+    {
+        return articleMapper.search(value);
     }
 }
