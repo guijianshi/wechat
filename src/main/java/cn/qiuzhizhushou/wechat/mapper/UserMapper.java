@@ -1,8 +1,7 @@
 package cn.qiuzhizhushou.wechat.mapper;
 
 import cn.qiuzhizhushou.wechat.model.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,9 +13,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserMapper
 {
-    @Select("select * from User where id = #{id}")
-    User selectUser(int id);
 
-    @Insert("insert into user (name, age) values (#{name}, #{age}) ")
     int insert(User user);
+
+    User find(int id);
+
+    User findIdByOpenid(@Param(value = "openid") String openid);
 }

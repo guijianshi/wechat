@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.qiuzhizhushou.wechat.mapper.UserMapper">
+    <insert id="insert" parameterType="cn.qiuzhizhushou.wechat.model.User">
+      insert into user(openid, nickname, avatar_url, gender, country, province, city, phone, created_at)
+      values (#{openid}, #{nickname}, #{avatarUrl}, #{gender}, #{country}, #{province}, #{city}, #{phone}, #{createdAt})
+    </insert>
+    <select id="find" resultType="cn.qiuzhizhushou.wechat.model.User">
+        select * from user where id=#{id}
+    </select>
+    <select id="findIdByOpenid" resultType="cn.qiuzhizhushou.wechat.model.User">
+        select id from user where openid = #{openid}
+    </select>
+</mapper>

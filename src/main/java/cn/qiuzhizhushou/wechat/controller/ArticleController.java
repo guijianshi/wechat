@@ -4,10 +4,7 @@ import cn.qiuzhizhushou.wechat.model.Article;
 import cn.qiuzhizhushou.wechat.response.JsonResponse;
 import cn.qiuzhizhushou.wechat.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,22 +21,22 @@ public class ArticleController extends BaseController
     @Autowired
     ArticleService articleService;
 
-    @RequestMapping("/list")
-    private JsonResponse list(@RequestParam int page)
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    private JsonResponse list(@RequestParam(defaultValue = "1") int num)
     {
-        return JsonResponse.success(null);
+        return JsonResponse.success(articleService.randomPage(num));
     }
 
-    @RequestMapping("/{id}")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     private JsonResponse find(@PathVariable int id)
     {
         return JsonResponse.success(articleService.findById(id).formatFull());
     }
 
-    @RequestMapping("search")
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
     private JsonResponse search(@RequestParam String column, @RequestParam String value)
     {
-        List<Article> articles = articleService.search(column, value);
+        List<Article> articles = articleService.search("openid", value);
         return JsonResponse.success(articles);
     }
 }

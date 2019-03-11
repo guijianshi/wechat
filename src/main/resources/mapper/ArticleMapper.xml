@@ -9,7 +9,7 @@
         <result column="content" property="content"></result>
     </resultMap>
     <select id="list" resultType="cn.qiuzhizhushou.wechat.model.Article">
-        select * from article limit 10
+        select article.id, article.title, article.content, author.name as 'author.name', author.dynasty as 'author.dynasty' from article , author  where article.author_id = author.id limit 10
     </select>
 <!--  根据id文章查询  -->
     <select id="findById" resultMap="articleWithAuthorAndQuotes">

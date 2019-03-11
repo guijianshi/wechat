@@ -15,6 +15,8 @@ public enum  EmBusinessError implements CommonError
 
     QUOTE_NOT_EXIST_ERROR(20002, "名言不存在"),
 
+    USER_EXISTED_ERROR(20003, "用户已存在"),
+
     HTTP_GET_ERROR(30001, "请求第三方接口失败"),
     // 系统错误
     SYSTEM_ERROR(50000, "系统错误"),

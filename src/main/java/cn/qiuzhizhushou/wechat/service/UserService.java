@@ -17,13 +17,19 @@ public class UserService
     @Autowired
     UserMapper userMapper;
 
-    public User selectUser(int id)
+    public User find(int id)
     {
-        return userMapper.selectUser(id);
+        return userMapper.find(id);
     }
 
     public int insert(User user)
     {
         return userMapper.insert(user);
+    }
+
+
+    public User findIdByOpenid(String openid)
+    {
+        return userMapper.findIdByOpenid(openid);
     }
 }

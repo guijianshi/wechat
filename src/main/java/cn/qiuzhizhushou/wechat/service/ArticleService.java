@@ -19,10 +19,10 @@ public class ArticleService
     @Autowired
     ArticleMapper articleMapper;
 
-//    public ArrayList<Article> list()
-//    {
-//        return articleMapper.list();
-//    }
+    public List<Article> list()
+    {
+        return articleMapper.list();
+    }
 
     public Article findById(int id)
     {
@@ -32,5 +32,14 @@ public class ArticleService
     public List<Article> search(String column, String value)
     {
         return articleMapper.search(value);
+    }
+
+    /**
+     * 首页随机取指定条文章
+     * @param num 条数
+     */
+    public List<Article> randomPage(int num)
+    {
+        return articleMapper.list();
     }
 }
