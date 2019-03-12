@@ -19,4 +19,6 @@ public interface UserMapper
     User find(int id);
 
     User findIdByOpenid(@Param(value = "openid") String openid);
+
+    int saveOrUpdate(User user);
 }

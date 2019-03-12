@@ -29,9 +29,16 @@ public class User extends Base
 
     private String city;
 
-    private String phone;
+    private String phone = "";
+
+    private String session;
 
     private Date createdAt;
+
+    public User()
+    {
+        createdAt = new Date();
+    }
 
     public Integer getId()
     {
@@ -123,6 +130,16 @@ public class User extends Base
         this.phone = phone;
     }
 
+    public String getSession()
+    {
+        return session;
+    }
+
+    public void setSession(String session)
+    {
+        this.session = session;
+    }
+
     public Date getCreatedAt()
     {
         return createdAt;
@@ -131,5 +148,23 @@ public class User extends Base
     public void setCreatedAt(Date createdAt)
     {
         this.createdAt = createdAt;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "User{" +
+                "id=" + id +
+                ", openid='" + openid + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", avatarUrl='" + avatarUrl + '\'' +
+                ", gender=" + gender +
+                ", country='" + country + '\'' +
+                ", province='" + province + '\'' +
+                ", city='" + city + '\'' +
+                ", phone='" + phone + '\'' +
+                ", session='" + session + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }

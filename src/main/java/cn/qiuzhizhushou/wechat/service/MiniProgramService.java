@@ -55,73 +55,36 @@ public class MiniProgramService
         Map<String, String> map = null;
         try {
             String res = HttpUtil.doGet(url, data);
-            // todo 结果处理
             map = (Map) JSONUtils.parse(res);
+            checkSession(map);
         } catch (Exception e) {
             throw new BusinessException(EmBusinessError.HTTP_GET_ERROR);
         }
         return map;
     }
 
-    public Object getUserInfo(String data, String key, String iv) throws BusinessException
+    public void checkSession(Map<String, String> sessionData) throws BusinessException
     {
-        try {
-            String result = decrypt(data, key, iv);
-            return result;
-        } catch (Exception e) {
-            throw new BusinessException(EmBusinessError.SYSTEM_ERROR);
+        if (!sessionData.containsKey("session_key") || !sessionData.containsKey("openid")) {
+            throw new BusinessException(EmBusinessError.WECHAT_SESSION_FORMAT_ERROR);
         }
     }
 
-    public Boolean checkRawData(String rawData, String signature)
+    public User getUserInfo(String rawData, String sessionKey, String signature, String openid) throws BusinessException
     {
-        return Sha1.checkSHA1(rawData, signature);
-    }
-
-    /**
-     * AES解密
-     *
-     * @param data           //密文，被加密的数据
-     * @param key            //秘钥
-     * @param iv             //偏移量
-     * @return
-     * @throws Exception
-     */
-    private String decrypt(String data, String key, String iv) throws Exception
-    {
-        Security.addProvider(new BouncyCastleProvider());
-
-        //被加密的数据
-        byte[] dataByte = Base64.decodeBase64(data);
-        //加密秘钥
-        byte[] keyByte = Base64.decodeBase64(key);
-        //偏移量
-        byte[] ivByte = Base64.decodeBase64(iv);
-        try {
-            int base = 16;
-            if (keyByte.length % base != 0) {
-                int groups = keyByte.length / base + (keyByte.length % base != 0 ? 1 : 0);
-                byte[] temp = new byte[groups * base];
-                Arrays.fill(temp, (byte) 0);
-                System.arraycopy(keyByte, 0, temp, 0, keyByte.length);
-                keyByte = temp;
-            }
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding", "BC");
-            SecretKeySpec spec = new SecretKeySpec(keyByte, "AES");
-            AlgorithmParameters parameters = AlgorithmParameters.getInstance("AES");
-            parameters.init(new IvParameterSpec(ivByte));
-            cipher.init(Cipher.DECRYPT_MODE, spec, parameters);// 初始化
-            byte[] resultByte = cipher.doFinal(dataByte);
-            if (null != resultByte && resultByte.length > 0) {
-                String result = new String(resultByte, "UTF-8");
-                return result;
-            }
-            return null;
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidParameterSpecException | InvalidKeyException
-                | InvalidAlgorithmParameterException | IllegalBlockSizeException | UnsupportedEncodingException
-                | BadPaddingException e) {
-            e.printStackTrace();
+        if (!Sha1.checkSHA1(rawData.concat(sessionKey), signature)) {
+            throw new BusinessException(EmBusinessError.WECHAT_DATA_ILLEGAL_ERROR);
         }
-        return null;
+        Map<String, Object> userMap = (Map) JSONUtils.parse(rawData);
+        User user = new User();
+        user.setOpenid(openid);
+        user.setAvatarUrl((String) userMap.get("avatarUrl"));
+        user.setNickname((String)userMap.get("nickName"));
+        user.setGender((Integer) userMap.get("gender"));
+        user.setCountry((String)userMap.get("country"));
+        user.setProvince((String)userMap.get("province"));
+        user.setCity((String)userMap.get("city"));
+        user.setSession(sessionKey);
+        return user;
     }
 }

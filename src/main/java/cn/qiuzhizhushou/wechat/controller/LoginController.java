@@ -29,14 +29,13 @@ public class LoginController extends BaseController
     UserService userService;
 
     @RequestMapping(value = "/wxlogin", method = RequestMethod.GET)
-    public JsonResponse wxlogin(@RequestParam String code) throws BusinessException
+    public JsonResponse wxlogin(@RequestParam String code, @RequestParam String rawData, @RequestParam String signature) throws BusinessException
     {
-        Map<String, String> res = miniProgramService.wxlogin(code);
-        if (res.containsKey("openid") && null == userService.findIdByOpenid(res.get("openid"))) {
-            User user = new User();
-            user.setOpenid(res.get("openid"));
-            userService.insert(user);
-        }
-        return JsonResponse.success(res);
+        Map<String, String> sessionAndOpenid = miniProgramService.wxlogin(code);
+        String sessionKey = sessionAndOpenid.get("session_key");
+        String openid = sessionAndOpenid.get("openid");
+        User user = miniProgramService.getUserInfo(rawData, sessionKey, signature, openid);
+        userService.saveOrUpdate(user);
+        return JsonResponse.success(sessionAndOpenid);
     }
 }

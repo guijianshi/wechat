@@ -7,6 +7,24 @@
       insert into user(openid, nickname, avatar_url, gender, country, province, city, phone, created_at)
       values (#{openid}, #{nickname}, #{avatarUrl}, #{gender}, #{country}, #{province}, #{city}, #{phone}, #{createdAt})
     </insert>
+    <update id="update" parameterType="cn.qiuzhizhushou.wechat.model.User">
+
+    </update>
+
+    <insert id="saveOrUpdate" >
+        <selectKey keyProperty="id" resultType="int" order="BEFORE">
+            select count(id) as id from user where openid = #{openid}
+        </selectKey>
+        <if test="id > 0">
+            update user
+            set nickname = #{nickname},avatar_url = #{avatarUrl}, session = #{session}
+            where id = #{id}
+        </if>
+        <if test="id == 0">
+            insert into user(openid, nickname, avatar_url, gender, country, province, city, session, phone, created_at)
+            values (#{openid}, #{nickname}, #{avatarUrl}, #{gender}, #{country}, #{province}, #{city},  #{session}, #{phone}, #{createdAt})
+        </if>
+    </insert>
     <select id="find" resultType="cn.qiuzhizhushou.wechat.model.User">
         select * from user where id=#{id}
     </select>

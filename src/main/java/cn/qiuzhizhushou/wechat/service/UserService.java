@@ -27,6 +27,11 @@ public class UserService
         return userMapper.insert(user);
     }
 
+    public int saveOrUpdate(User user)
+    {
+        return userMapper.saveOrUpdate(user);
+    }
+
 
     public User findIdByOpenid(String openid)
     {
