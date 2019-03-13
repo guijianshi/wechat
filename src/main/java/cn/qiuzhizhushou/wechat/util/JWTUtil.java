@@ -2,8 +2,12 @@ package cn.qiuzhizhushou.wechat.util;
 
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
 
 import java.util.*;
 
@@ -15,13 +19,14 @@ import java.util.*;
  */
 public class JWTUtil
 {
-    public String createToken()
+    private static String secret = "secret";
+
+    public static String createToken()
     {
         String token = null;
         try {
 
-            String secret = "secret";
-            Algorithm algorithm = Algorithm.HMAC256("secret");
+            Algorithm algorithm = Algorithm.HMAC256(secret);
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("user", 1);
             map.put("test", 1);
@@ -44,7 +49,7 @@ public class JWTUtil
     }
 
 
-    public String createTokenWithClaim()
+    public static String createTokenWithClaim()
     {
         String token = null;
         try {
@@ -74,7 +79,26 @@ public class JWTUtil
         return token;
     }
 
-    private Date getAfterDate(Date date, int year, int month, int day, int hour, int minute, int second)
+    public static void verifyToken(String token) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            JWTVerifier verifier = JWT.require(algorithm)
+                    .withIssuer("SERVICE")
+                    .build(); //Reusable verifier instance
+            DecodedJWT jwt = verifier.verify(token);
+            String subject = jwt.getSubject();
+            Map<String, Claim> claims = jwt.getClaims();
+            Claim claim = claims.get("loginName");
+            System.out.println(claim.asString());
+            List<String> audience = jwt.getAudience();
+            System.out.println(subject);
+            System.out.println(audience.get(0));
+        } catch (JWTVerificationException exception){
+            exception.printStackTrace();
+        }
+    }
+
+    private static Date getAfterDate(Date date, int year, int month, int day, int hour, int minute, int second)
     {
         if(date == null){
             date = new Date();
