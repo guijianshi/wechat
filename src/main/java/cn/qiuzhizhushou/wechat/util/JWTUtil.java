@@ -1,13 +1,17 @@
 package cn.qiuzhizhushou.wechat.util;
 
 
+import cn.qiuzhizhushou.wechat.error.BusinessException;
+import cn.qiuzhizhushou.wechat.error.EmBusinessError;
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.*;
 
@@ -19,112 +23,67 @@ import java.util.*;
  */
 public class JWTUtil
 {
-    private static String secret = "secret";
+    @Value("${jwt-secret}")
+    private static String secret;
 
-    public static String createToken()
+    public static String createToken(TokenParam tokenParam) throws BusinessException
     {
         String token = null;
         try {
-
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("user", 1);
-            map.put("test", 1);
-            Date  nowDate = new Date();
-            Date expireDate = getAfterDate(nowDate,0,0,0,2,0,0);
-            token = JWT.create()
-                    .withHeader(map)
-                    .withIssuer("service") //签名是有谁生成 例如 服务器
-                    .withSubject("this is token") //签名的主题
+            JWTCreator.Builder tokenBuilder = JWT.create();
+            Map<String, Object> claims = tokenParam.getClaims();
+            for (Map.Entry<String, Object> entry : claims.entrySet()) {
+                String key = entry.getKey();
+                Object claim = entry.getValue();
+                if (claim instanceof String) {
+                    tokenBuilder = tokenBuilder.withClaim(key, (String) claim);
+                } else if (claim instanceof Integer) {
+                    tokenBuilder = tokenBuilder.withClaim(key, (Integer) claim);
+                } else if (claim instanceof Date) {
+                    tokenBuilder = tokenBuilder.withClaim(key, (Date) claim);
+                } else if (claim instanceof Boolean) {
+                    tokenBuilder = tokenBuilder.withClaim(key, (Boolean) claim);
+                } else {
+                    tokenBuilder = tokenBuilder.withClaim(key, "格式未定义");
+                }
+            }
+            token = tokenBuilder.withIssuer(tokenParam.getIssuer()) //签名是有谁生成 例如 服务器
+                    .withSubject(tokenParam.getSubject()) //签名的主题
                     //.withNotBefore(new Date())//定义在什么时间之前，该jwt都是不可用的.
-                    .withAudience("wechat") //签名的观众 也可以理解谁接受签名的
-                    .withIssuedAt(nowDate)
-                    .withExpiresAt(expireDate)
+                    .withAudience(tokenParam.getAudience()) //签名的观众 也可以理解谁接受签名的
+                    .withIssuedAt(tokenParam.getIssuedAt())
+                    .withExpiresAt(tokenParam.getExpiresAt())
                     .sign(algorithm);
             return token;
         } catch (JWTCreationException exception) {
             exception.printStackTrace();
+            throw new BusinessException(EmBusinessError.JWT_VERIFY_ERROR);
         }
-        return token;
     }
 
-
-    public static String createTokenWithClaim()
+    public static void verifyToken(String token) throws BusinessException
     {
-        String token = null;
-        try {
-            Algorithm algorithm = Algorithm.HMAC256("secret");
-            Map<String, Object> map = new HashMap<String, Object>();
-            Date nowDate = new Date();
-            Date expireDate = getAfterDate(nowDate,0,0,0,2,0,0);//2小过期
-            map.put("alg", "HS256");
-            map.put("typ", "JWT");
-            token = JWT.create()
-                    /*设置头部信息 Header*/
-                    .withHeader(map)
-                    /*设置 载荷 Payload*/
-                    .withClaim("loginName", "lijunkui")
-                    .withIssuer("SERVICE")//签名是有谁生成 例如 服务器
-                    .withSubject("this is test token")//签名的主题
-                    //.withNotBefore(new Date())//定义在什么时间之前，该jwt都是不可用的.
-                    .withAudience("APP")//签名的观众 也可以理解谁接受签名的
-                    .withIssuedAt(nowDate) //生成签名的时间
-                    .withExpiresAt(expireDate)//签名过期的时间
-                    /*签名 Signature */
-                    .sign(algorithm);
-            return token;
-        } catch (JWTCreationException exception){
-            exception.printStackTrace();
-        }
-        return token;
-    }
-
-    public static void verifyToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer("SERVICE")
+                    .withIssuer("service")
                     .build(); //Reusable verifier instance
             DecodedJWT jwt = verifier.verify(token);
-            String subject = jwt.getSubject();
+
             Map<String, Claim> claims = jwt.getClaims();
-            Claim claim = claims.get("loginName");
-            System.out.println(claim.asString());
+            claims.forEach((key, value) -> {
+                System.out.println(key + value.asString());
+            });
+//            Claim claim = claims.get("name");
+
+            String subject = jwt.getSubject();
             List<String> audience = jwt.getAudience();
             System.out.println(subject);
             System.out.println(audience.get(0));
         } catch (JWTVerificationException exception){
             exception.printStackTrace();
+            throw new BusinessException(EmBusinessError.JWT_VERIFY_ERROR);
         }
-    }
-
-    private static Date getAfterDate(Date date, int year, int month, int day, int hour, int minute, int second)
-    {
-        if(date == null){
-            date = new Date();
-        }
-
-        Calendar cal = new GregorianCalendar();
-
-        cal.setTime(date);
-        if(year != 0){
-            cal.add(Calendar.YEAR, year);
-        }
-        if(month != 0){
-            cal.add(Calendar.MONTH, month);
-        }
-        if(day != 0){
-            cal.add(Calendar.DATE, day);
-        }
-        if(hour != 0){
-            cal.add(Calendar.HOUR_OF_DAY, hour);
-        }
-        if(minute != 0){
-            cal.add(Calendar.MINUTE, minute);
-        }
-        if(second != 0){
-            cal.add(Calendar.SECOND, second);
-        }
-        return cal.getTime();
     }
 }

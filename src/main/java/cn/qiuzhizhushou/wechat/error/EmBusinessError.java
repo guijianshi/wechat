@@ -17,9 +17,10 @@ public enum  EmBusinessError implements CommonError
 
     USER_EXISTED_ERROR(20003, "用户已存在"),
 
+
+    JWT_VERIFY_ERROR(400401, "token校验错误"),
+
     HTTP_GET_ERROR(30001, "请求第三方接口失败"),
-
-
     // 30100 系列微信
     WECHAT_LOGIN_ERROR(30101, "微信小程序登入异常"),
     WECHAT_SESSION_FORMAT_ERROR(30102, "微信小程序session格式异常"),

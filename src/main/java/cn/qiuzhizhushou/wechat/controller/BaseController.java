@@ -30,6 +30,7 @@ public class BaseController
         } else {
             code = 50000;
             message = ex.getMessage();
+            ex.printStackTrace();
         }
         return JsonResponse.create(code, message);
     }
