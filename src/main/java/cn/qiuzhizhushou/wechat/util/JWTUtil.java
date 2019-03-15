@@ -12,6 +12,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -21,12 +22,13 @@ import java.util.*;
  * Date: 19/3/13
  * Time: 上午9:33
  */
+@Component
 public class JWTUtil
 {
-    @Value("${jwt-secret}")
-    private static String secret;
+    @Value("${jwt.secret}")
+    private String secret;
 
-    public static String createToken(TokenParam tokenParam) throws BusinessException
+    public String createToken(TokenParam tokenParam) throws BusinessException
     {
         String token = null;
         try {
@@ -62,7 +64,7 @@ public class JWTUtil
         }
     }
 
-    public static void verifyToken(String token) throws BusinessException
+    public DecodedJWT verifyToken(String token) throws BusinessException
     {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -70,17 +72,19 @@ public class JWTUtil
                     .withIssuer("service")
                     .build(); //Reusable verifier instance
             DecodedJWT jwt = verifier.verify(token);
-
-            Map<String, Claim> claims = jwt.getClaims();
-            claims.forEach((key, value) -> {
-                System.out.println(key + value.asString());
-            });
-//            Claim claim = claims.get("name");
-
-            String subject = jwt.getSubject();
-            List<String> audience = jwt.getAudience();
-            System.out.println(subject);
-            System.out.println(audience.get(0));
+            return jwt;
+//            return jwt;
+//            Map<String, Claim> claims = jwt.getClaims();
+//            claims.forEach((key, value) -> {
+//                System.out.println(key + value.asString());
+//            });
+//            TokenParam param = new TokenParam();
+//            Map<String, Object> map = new HashMap<>();
+//            for (Map.Entry<String, Claim> entry : claims.entrySet()) {
+//                param.addClaim(entry.getKey(), entry.getValue().asString());
+//            }
+//            param.setSubject(jwt.getSubject());
+//            return param;
         } catch (JWTVerificationException exception){
             exception.printStackTrace();
             throw new BusinessException(EmBusinessError.JWT_VERIFY_ERROR);

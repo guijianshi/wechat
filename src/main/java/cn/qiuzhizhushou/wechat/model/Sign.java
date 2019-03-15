@@ -23,6 +23,12 @@ public class Sign extends Base
         createdAt = new Date();
     }
 
+    public Sign(int userId)
+    {
+        createdAt = new Date();
+        this.userId = userId;
+    }
+
     public Integer getId()
     {
         return id;

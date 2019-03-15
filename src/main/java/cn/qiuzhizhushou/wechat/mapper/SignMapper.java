@@ -1,6 +1,9 @@
 package cn.qiuzhizhushou.wechat.mapper;
 
 import cn.qiuzhizhushou.wechat.model.Sign;
+import org.apache.ibatis.annotations.Param;
+
+import java.sql.Date;
 
 /**
  * Created by IDEA.
@@ -12,5 +15,7 @@ public interface SignMapper
 {
     Sign find(int in);
 
-    Sign findByUserIdAndDate(int userId);
+    Sign findByUserIdAndDate(@Param("user_id") int userId, @Param("today") Date date);
+
+    boolean save(Sign sign);
 }

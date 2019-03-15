@@ -15,4 +15,4 @@ mini-program.appid=
 mini-program.secret=
 
 # jwt jwt 密钥
-jwt-secret=
+jwt.secret=

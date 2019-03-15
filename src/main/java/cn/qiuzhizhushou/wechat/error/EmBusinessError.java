@@ -13,12 +13,16 @@ public enum  EmBusinessError implements CommonError
 
     USER_NOT_EXIST_OR_PWD_ERROR(10002, "用户不存在或密码错误"),
 
+    ALREADY_SIGNED_ERROR(100301, "用户已签到"),
+
     QUOTE_NOT_EXIST_ERROR(20002, "名言不存在"),
 
     USER_EXISTED_ERROR(20003, "用户已存在"),
 
 
-    JWT_VERIFY_ERROR(400401, "token校验错误"),
+    NO_LOGGING_ERROR(400401, "请先登入"),
+
+    JWT_VERIFY_ERROR(400403, "token校验错误"),
 
     HTTP_GET_ERROR(30001, "请求第三方接口失败"),
     // 30100 系列微信
