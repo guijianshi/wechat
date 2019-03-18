@@ -36,8 +36,9 @@ public class SignService
         return signMapper.save(sign);
     }
 
-    public boolean isSigned(int userid)
+
+    public boolean isSigned(int userId)
     {
-        return null != findByUidToday(userid);
+        return null != findByUidToday(userId);
     }
 }
