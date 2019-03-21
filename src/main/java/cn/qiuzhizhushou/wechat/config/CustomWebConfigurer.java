@@ -19,7 +19,9 @@ public class CustomWebConfigurer implements WebMvcConfigurer
     @Override
     public void addInterceptors(InterceptorRegistry registry)
     {
-        registry.addInterceptor(tokenInterceptor).addPathPatterns("/wechat/sign/*")
+        registry.addInterceptor(tokenInterceptor)
+                .addPathPatterns("/wechat/sign/*")
+                .addPathPatterns("/wechat/collection/*")
                 .excludePathPatterns("/wechat/login/wxlogin")
         ;
     }
