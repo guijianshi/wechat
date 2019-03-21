@@ -13,7 +13,13 @@ public enum  EmBusinessError implements CommonError
 
     USER_NOT_EXIST_OR_PWD_ERROR(10002, "用户不存在或密码错误"),
 
-    ALREADY_SIGNED_ERROR(100301, "用户已签到"),
+    ALREADY_SIGNED_ERROR(200301, "用户已签到"),
+
+    ALREADY_COLLECTED_ERROR(200401, "请勿重复收藏"),
+
+    ADD_COLLECTION_ERROR(200402, "收藏失败"),
+
+    COLLECTION_NOT_EXISTED_ERROR(200403, "收藏不存在"),
 
     QUOTE_NOT_EXIST_ERROR(20002, "名言不存在"),
 
