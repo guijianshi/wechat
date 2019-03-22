@@ -1,6 +1,7 @@
 package cn.qiuzhizhushou.wechat.mapper;
 
 import cn.qiuzhizhushou.wechat.model.Article;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,5 +18,5 @@ public interface ArticleMapper
 
     ArrayList<Article> list();
 
-    List<Article> search(String value);
+    List<Article> search(@Param("value") String value);
 }

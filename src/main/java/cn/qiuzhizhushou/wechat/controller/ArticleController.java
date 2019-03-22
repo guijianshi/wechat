@@ -6,6 +6,7 @@ import cn.qiuzhizhushou.wechat.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
 import java.util.List;
 
 /**
@@ -24,6 +25,11 @@ public class ArticleController extends BaseController
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     private JsonResponse list(@RequestParam(defaultValue = "1") int num)
     {
+        java.util.Random random = new java.util.Random();
+        int[] ids = new int[num];
+        for (int i = 0; i < num; i++) {
+            ids[i] = random.nextInt(1000);
+        }
         return JsonResponse.success(articleService.randomPage(num));
     }
 
@@ -34,9 +40,9 @@ public class ArticleController extends BaseController
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    private JsonResponse search(@RequestParam String column, @RequestParam String value)
+    private JsonResponse search(@RequestParam String value)
     {
-        List<Article> articles = articleService.search("openid", value);
+        List<Article> articles = articleService.search(value);
         return JsonResponse.success(articles);
     }
 }

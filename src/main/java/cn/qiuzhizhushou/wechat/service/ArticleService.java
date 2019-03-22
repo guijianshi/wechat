@@ -29,7 +29,7 @@ public class ArticleService
         return articleMapper.findById(id);
     }
 
-    public List<Article> search(String column, String value)
+    public List<Article> search(String value)
     {
         return articleMapper.search(value);
     }
