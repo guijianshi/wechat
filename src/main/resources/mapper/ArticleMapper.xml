@@ -20,6 +20,16 @@
         from article , author
         where article.author_id = author.id and article.title like  CONCAT('%',#{value},'%')  limit 10
     </select>
+    <select id="selectByIds" resultType="cn.qiuzhizhushou.wechat.model.Article">
+        select article.id, article.title, article.content, author.name as 'author.name', author.dynasty as 'author.dynasty'
+        from article , author
+        where article.author_id = author.id
+          and article.id in
+            <foreach collection="ids" item="item" index="index"  open="(" separator="," close=")">
+                     #{item}
+            </foreach>
+
+    </select>
 
     <!--  根据id查询文章包含作者名言  -->
     <resultMap id="articleWithAuthorAndQuotes" type="cn.qiuzhizhushou.wechat.model.Article">

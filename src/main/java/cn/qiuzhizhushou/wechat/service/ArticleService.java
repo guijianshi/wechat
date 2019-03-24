@@ -42,4 +42,9 @@ public class ArticleService
     {
         return articleMapper.list();
     }
+
+    public List<Article> selectByIds(int[] ids)
+    {
+        return articleMapper.selectByIds(ids);
+    }
 }

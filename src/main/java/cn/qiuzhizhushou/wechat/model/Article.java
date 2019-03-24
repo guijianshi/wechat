@@ -78,7 +78,7 @@ public class Article extends Base
 
     public String getContent()
     {
-        return content;
+        return content.replaceAll( "(?i)\\<br\\s*\\/\\s*\\>", "\n");
     }
 
     public void setContent(String content)

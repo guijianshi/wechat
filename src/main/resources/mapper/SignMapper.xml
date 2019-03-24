@@ -15,6 +15,6 @@
     <select id="findByUserIdAndDate" resultType="cn.qiuzhizhushou.wechat.model.Sign">
         select id, user_id
         from sign
-        where user_id = #{user_id} and created_at &gt; #{today}
+        where user_id = #{user_id} and created_at &gt; DATE_FORMAT(NOW(),'%Y-%m-%d')
     </select>
 </mapper>

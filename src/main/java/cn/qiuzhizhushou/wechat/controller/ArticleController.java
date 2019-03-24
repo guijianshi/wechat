@@ -30,7 +30,7 @@ public class ArticleController extends BaseController
         for (int i = 0; i < num; i++) {
             ids[i] = random.nextInt(1000);
         }
-        return JsonResponse.success(articleService.randomPage(num));
+        return JsonResponse.success(articleService.selectByIds(ids));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

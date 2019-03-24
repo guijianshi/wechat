@@ -19,4 +19,6 @@ public interface ArticleMapper
     ArrayList<Article> list();
 
     List<Article> search(@Param("value") String value);
+
+    List<Article> selectByIds(@Param("ids") int[] ids);
 }
