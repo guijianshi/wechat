@@ -10,6 +10,9 @@ mybatis.config-location=classpath:mybatis/sqlMapConfig.xml
 mybatis.typeAliasesPackage=cn.qiuzhizhushou.wechat.model
 mybatis.mapperLocations=classpath:mapper/*.xml
 
+# 日志
+logging.level.cn.qiuzhizhushou.wechat.mapper=DEBUG
+
 # 小程序配置 配置
 mini-program.appid=
 mini-program.secret=
