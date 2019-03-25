@@ -23,10 +23,15 @@
     </select>
     <select id="list" resultType="java.util.HashMap">
         select c.article_id, a.title, au.name, au.dynasty
-        from collection c
+        from
+          collection c
         inner join article a on c.article_id = a.id
         left join author au on au.id = a.author_id
-        where user_id = #{userId} and status = 1
-        order by c.id desc limit 10
+        where
+          user_id = #{userId} and status = 1
+        order
+          by c.id desc
+        limit
+          #{offset}, 10
     </select>
 </mapper>

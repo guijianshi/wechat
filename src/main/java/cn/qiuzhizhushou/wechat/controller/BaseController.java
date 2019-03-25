@@ -34,4 +34,12 @@ public class BaseController
         }
         return JsonResponse.create(code, message);
     }
+
+    protected int getOffset(int page)
+    {
+        if (page < 1) {
+            return 0;
+        }
+        return 10 * (page - 1);
+    }
 }

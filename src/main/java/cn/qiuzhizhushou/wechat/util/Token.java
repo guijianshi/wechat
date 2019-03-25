@@ -32,7 +32,7 @@ public class Token
         TokenParam tokenParam = new TokenParam();
         tokenParam.addClaim("user_id", user.getId())
                 .addClaim("nickname", user.getNickname())
-                .setExpiresAt(TokenParam.getAfterDate(null, 0, 1, 0, 0, 0, 0));
+                .setExpiresAt(TokenParam.getAfterDate(null, 0, 6, 0, 0, 0, 0));
         return tokenParam;
 
     }

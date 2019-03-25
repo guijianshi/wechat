@@ -23,7 +23,7 @@ public class ArticleController extends BaseController
     ArticleService articleService;
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    private JsonResponse list(@RequestParam(defaultValue = "1") int num)
+    private JsonResponse list(@RequestParam(defaultValue = "10") int num)
     {
         java.util.Random random = new java.util.Random();
         int[] ids = new int[num];
@@ -45,4 +45,12 @@ public class ArticleController extends BaseController
         List<Article> articles = articleService.search(value);
         return JsonResponse.success(articles);
     }
+
+	@RequestMapping(value = "/tag/{tagId}", method = RequestMethod.GET)
+	public JsonResponse selectByTagId(@PathVariable int tagId, @RequestParam(defaultValue = "1") int page)
+	{
+		int offset = this.getOffset(page);
+		List<Article> articles = articleService.selectByTagId(tagId, offset);
+		return JsonResponse.success(articles);
+	}
 }

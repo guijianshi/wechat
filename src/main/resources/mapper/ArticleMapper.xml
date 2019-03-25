@@ -9,7 +9,9 @@
         <result column="content" property="content"></result>
     </resultMap>
     <select id="list" resultType="cn.qiuzhizhushou.wechat.model.Article">
-        select article.id, article.title, article.content, author.name as 'author.name', author.dynasty as 'author.dynasty' from article , author  where article.author_id = author.id limit 10
+        select article.id, article.title, article.content, author.name as 'author.name', author.dynasty as 'author.dynasty'
+        from article , author
+        where article.author_id = author.id limit 10
     </select>
 <!--  根据id文章查询  -->
     <select id="findById" resultMap="articleWithAuthorAndQuotes">
@@ -20,6 +22,7 @@
         from article , author
         where article.author_id = author.id and article.title like  CONCAT('%',#{value},'%')  limit 10
     </select>
+    <!-- 根据id数组获取文章 -->
     <select id="selectByIds" resultType="cn.qiuzhizhushou.wechat.model.Article">
         select article.id, article.title, article.content, author.name as 'author.name', author.dynasty as 'author.dynasty'
         from article , author
@@ -29,6 +32,15 @@
                      #{item}
             </foreach>
 
+    </select>
+    <select id="selectByTagId" resultType="cn.qiuzhizhushou.wechat.model.Article">
+        select
+          article.id, article.title, article.content, author.name as 'author.name', author.dynasty as 'author.dynasty'
+        from
+          article, author, article_tag_map
+        where article.author_id = author.id and article.id = article_tag_map.article_id
+          and article_tag_map.tag_id = #{tagId}
+        limit #{offset}, 10
     </select>
 
     <!--  根据id查询文章包含作者名言  -->

@@ -47,4 +47,9 @@ public class ArticleService
     {
         return articleMapper.selectByIds(ids);
     }
+
+    public List<Article> selectByTagId(int tagId, int offset)
+    {
+        return articleMapper.selectByTagId(tagId, offset);
+    }
 }

@@ -78,7 +78,14 @@ public class Article extends Base
 
     public String getContent()
     {
-        return content.replaceAll( "(?i)\\<br\\s*\\/\\s*\\>", "\n");
+        if (null == content) {
+            return null;
+        }
+        String articleContent = content.replaceAll( "(?i)\\<br\\s*\\/\\s*\\>", "\n");
+//        articleContent = articleContent.replaceAll("<([^>]+)>[\\d\\D]*<\\/\\1>", "");
+        articleContent = articleContent.replaceAll("<([^>]+)>", "\n");
+        articleContent = articleContent.replaceAll("\n(\\s)*\n", "\n");
+        return articleContent;
     }
 
     public void setContent(String content)

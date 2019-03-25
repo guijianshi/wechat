@@ -105,9 +105,10 @@ public class ArticleCollectionController extends BaseController
      * @return
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public JsonResponse list(@RequestParam() int page)
+    public JsonResponse list(@RequestParam(defaultValue = "1") int page)
     {
         int userId = Token.getUserId();
-        return JsonResponse.success(articleCollectionService.list(userId, page));
+        int offset = getOffset(page);
+        return JsonResponse.success(articleCollectionService.list(userId, offset));
     }
 }

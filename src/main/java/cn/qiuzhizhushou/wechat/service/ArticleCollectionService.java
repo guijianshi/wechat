@@ -43,8 +43,8 @@ public class ArticleCollectionService
         return articleCollectionMapper.update(collection);
     }
 
-    public List<Map<String, Object>> list(int userId, int page)
+    public List<Map<String, Object>> list(int userId, int offset)
     {
-        return articleCollectionMapper.list(userId, page);
+        return articleCollectionMapper.list(userId, offset);
     }
 }
