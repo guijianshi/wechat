@@ -23,7 +23,7 @@ public class ArticleController extends BaseController
     ArticleService articleService;
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    private JsonResponse list(@RequestParam(defaultValue = "10") int num)
+    public JsonResponse list(@RequestParam(defaultValue = "10") int num)
     {
         java.util.Random random = new java.util.Random();
         int[] ids = new int[num];
@@ -34,13 +34,13 @@ public class ArticleController extends BaseController
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    private JsonResponse find(@PathVariable int id)
+    public JsonResponse find(@PathVariable int id)
     {
         return JsonResponse.success(articleService.findById(id).formatFull());
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    private JsonResponse search(@RequestParam String value)
+    public JsonResponse search(@RequestParam String value)
     {
         List<Article> articles = articleService.search(value);
         return JsonResponse.success(articles);
@@ -51,6 +51,14 @@ public class ArticleController extends BaseController
 	{
 		int offset = this.getOffset(page);
 		List<Article> articles = articleService.selectByTagId(tagId, offset);
+		return JsonResponse.success(articles);
+	}
+
+	@RequestMapping(value = "/author/{authorId}", method = RequestMethod.GET)
+	public JsonResponse selectByAuthorId(@PathVariable int authorId, @RequestParam(defaultValue = "1") int page)
+	{
+		int offset = this.getOffset(page);
+		List<Article> articles = articleService.selectByAuthorId(authorId, offset);
 		return JsonResponse.success(articles);
 	}
 }

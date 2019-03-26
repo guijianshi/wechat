@@ -23,4 +23,6 @@ public interface ArticleMapper
     List<Article> selectByIds(@Param("ids") int[] ids);
 
 	List<Article> selectByTagId(@Param("tagId") int tagId, @Param("offset") int offset);
+
+	List<Article> selectByAuthorId(@Param("authorId") int authorId, @Param("offset") int offset);
 }

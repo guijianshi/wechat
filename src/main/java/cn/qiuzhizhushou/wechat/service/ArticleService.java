@@ -52,4 +52,9 @@ public class ArticleService
     {
         return articleMapper.selectByTagId(tagId, offset);
     }
+
+    public List<Article> selectByAuthorId(int authorId, int offset)
+    {
+        return articleMapper.selectByAuthorId(authorId, offset);
+    }
 }

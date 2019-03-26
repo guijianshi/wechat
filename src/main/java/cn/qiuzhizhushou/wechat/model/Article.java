@@ -2,7 +2,6 @@ package cn.qiuzhizhushou.wechat.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.apache.ibatis.annotations.Result;
 
 import java.util.Date;
 import java.util.List;
@@ -30,7 +29,7 @@ public class Article extends Base
     @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss",timezone="GMT+8")
     private Date updatedAt;
 
-    private Boolean poem = false;
+    private Integer type = 0;
 
     private Author author;
 
@@ -123,14 +122,14 @@ public class Article extends Base
         this.author = author;
     }
 
-    public Boolean getPoem()
+    public Integer getType()
     {
-        return poem;
+        return type;
     }
 
-    public void setPoem(Boolean poem)
+    public void setType(Integer type)
     {
-        poem = poem;
+        this.type = type;
     }
 
     /**
