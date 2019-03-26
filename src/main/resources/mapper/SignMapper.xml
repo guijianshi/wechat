@@ -15,6 +15,30 @@
     <select id="findByUserIdAndDate" resultType="cn.qiuzhizhushou.wechat.model.Sign">
         select id, user_id
         from sign
-        where user_id = #{user_id} and created_at &gt; DATE_FORMAT(NOW(),'%Y-%m-%d')
+        where user_id = #{userId} and created_at &gt; DATE_FORMAT(NOW(),'%Y-%m-%d')
     </select>
+    <select id="getRankToday" resultType="cn.qiuzhizhushou.wechat.model.Sign">
+        select
+          sign.id, sign.created_at, user.id as 'user.id',
+          user.nickname as 'user.nickname', user.avatar_url as 'user.avatarUrl'
+        from sign, user
+        where
+          sign.user_id = user.id and
+          sign.created_at &gt; DATE_FORMAT(NOW(),'%Y-%m-%d')
+        order by
+          sign.id asc
+        limit 20
+    </select>
+
+    <resultMap id="signWithUser" type="cn.qiuzhizhushou.wechat.model.Sign">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="createdAt" column="create_at"/>
+        <association property="user"
+                     column="user_id"
+                     fetchType="eager"
+                     select="cn.qiuzhizhushou.wechat.mapper.UserMapper.find"
+        >
+        </association>
+    </resultMap>
 </mapper>

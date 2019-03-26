@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,7 +32,9 @@ public class SignController extends BaseController
     public JsonResponse signIn() throws BusinessException
     {
         int userId = Token.getUserId();
-
+        if (0 == userId) {
+            throw new BusinessException(EmBusinessError.NO_LOGGING_ERROR);
+        }
         if (null != signService.findByUidToday(userId)) {
             throw new BusinessException(EmBusinessError.ALREADY_SIGNED_ERROR);
         }
@@ -50,5 +53,12 @@ public class SignController extends BaseController
         boolean isSigned = signService.isSigned(userId);
         data.put("isSigned", isSigned);
         return JsonResponse.success(data);
+    }
+
+    @RequestMapping(value = "signRankToday", method = RequestMethod.GET)
+    public JsonResponse signRankToday()
+    {
+        List<Sign> signs = signService.getRankToday();
+        return JsonResponse.success(signService.fullFormat(signs));
     }
 }

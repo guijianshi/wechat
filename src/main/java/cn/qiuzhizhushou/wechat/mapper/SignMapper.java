@@ -4,6 +4,7 @@ import cn.qiuzhizhushou.wechat.model.Sign;
 import org.apache.ibatis.annotations.Param;
 
 import java.sql.Date;
+import java.util.List;
 
 /**
  * Created by IDEA.
@@ -15,7 +16,9 @@ public interface SignMapper
 {
     Sign find(int in);
 
-    Sign findByUserIdAndDate(@Param("user_id") int userId, @Param("today") Date date);
+    Sign findByUserIdAndDate(@Param("userId") int userId, @Param("today") Date date);
 
     boolean save(Sign sign);
+
+    List<Sign> getRankToday();
 }

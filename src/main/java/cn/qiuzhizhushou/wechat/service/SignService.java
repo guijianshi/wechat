@@ -2,11 +2,10 @@ package cn.qiuzhizhushou.wechat.service;
 
 import cn.qiuzhizhushou.wechat.mapper.SignMapper;
 import cn.qiuzhizhushou.wechat.model.Sign;
-import cn.qiuzhizhushou.wechat.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.List;
 
 /**
  * Created by IDEA.
@@ -40,5 +39,18 @@ public class SignService
     public boolean isSigned(int userId)
     {
         return null != findByUidToday(userId);
+    }
+
+    public List<Sign> getRankToday()
+    {
+        return signMapper.getRankToday();
+    }
+
+    public List<Sign> fullFormat(List<Sign> signs)
+    {
+        for (Sign sign: signs) {
+            sign.setUser(sign.getUser());
+        }
+        return signs;
     }
 }
