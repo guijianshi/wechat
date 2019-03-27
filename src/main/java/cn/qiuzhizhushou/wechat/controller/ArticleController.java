@@ -28,7 +28,7 @@ public class ArticleController extends BaseController
         java.util.Random random = new java.util.Random();
         int[] ids = new int[num];
         for (int i = 0; i < num; i++) {
-            ids[i] = random.nextInt(1000);
+			ids[i] = random.nextInt(5500);
         }
         return JsonResponse.success(articleService.selectByIds(ids));
     }

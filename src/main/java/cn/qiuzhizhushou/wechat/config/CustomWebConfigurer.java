@@ -14,15 +14,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class CustomWebConfigurer implements WebMvcConfigurer
 {
-    @Autowired TokenInterceptor tokenInterceptor;
+	@Autowired
+	TokenInterceptor tokenInterceptor;
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry)
-    {
-        registry.addInterceptor(tokenInterceptor)
-                .addPathPatterns("/wechat/sign/*")
-                .addPathPatterns("/wechat/collection/*")
-                .excludePathPatterns("/wechat/login/wxlogin")
-        ;
-    }
+	@Override
+	public void addInterceptors(InterceptorRegistry registry)
+	{
+		registry.addInterceptor(tokenInterceptor)
+				.addPathPatterns("/wechat/sign/*")
+				.addPathPatterns("/wechat/login/*")
+				.addPathPatterns("/wechat/collection/*")
+				.excludePathPatterns("/wechat/login/wxlogin")
+		;
+	}
 }
