@@ -53,4 +53,9 @@ public class SignService
         }
         return signs;
     }
+
+    public int monthSignNumOfDays(int userId)
+    {
+        return signMapper.monthSignNumOfDays(userId);
+    }
 }

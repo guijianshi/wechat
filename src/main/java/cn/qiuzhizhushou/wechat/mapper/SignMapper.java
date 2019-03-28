@@ -21,4 +21,6 @@ public interface SignMapper
     boolean save(Sign sign);
 
     List<Sign> getRankToday();
+
+    int monthSignNumOfDays(int userId);
 }

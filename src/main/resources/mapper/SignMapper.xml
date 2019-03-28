@@ -29,6 +29,13 @@
           sign.id asc
         limit 20
     </select>
+    <select id="monthSignNumOfDays" resultType="java.lang.Integer">
+        select count(id)
+        from sign
+        where
+          created_at >  DATE_FORMAT(NOW(),'%Y-%m')
+          and user_id = #{userId}
+    </select>
 
     <resultMap id="signWithUser" type="cn.qiuzhizhushou.wechat.model.Sign">
         <id property="id" column="id"/>

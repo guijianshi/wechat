@@ -61,4 +61,15 @@ public class SignController extends BaseController
         List<Sign> signs = signService.getRankToday();
         return JsonResponse.success(signService.fullFormat(signs));
     }
+
+    // 获取当月签到天数
+    @RequestMapping(value = "monthSignNumOfDays", method = RequestMethod.GET)
+    public JsonResponse monthSignNumOfDays()
+    {
+        int userId = Token.getUserId();
+        int num = signService.monthSignNumOfDays(userId);
+        Map<String, Object> data = new HashMap<>();
+        data.put("monthSignNumOfDays", num);
+        return JsonResponse.success(data);
+    }
 }
