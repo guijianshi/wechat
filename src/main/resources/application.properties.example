@@ -19,3 +19,8 @@ mini-program.secret=
 
 # jwt jwt 密钥
 jwt.secret=
+
+# 百度api
+baidu-api.appid=
+baidu-api.appkey=
+baidu-api.secret=

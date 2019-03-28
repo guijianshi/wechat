@@ -36,6 +36,8 @@ public enum  EmBusinessError implements CommonError
     WECHAT_SESSION_FORMAT_ERROR(30102, "微信小程序session格式异常"),
     WECHAT_DATA_ILLEGAL_ERROR(30103, "微信数据非法"),
 
+    BAIDU_TTS_ERROR(30201, "百度文字转语音失败"),
+
     // 系统错误
     SYSTEM_ERROR(50000, "系统错误"),
 
