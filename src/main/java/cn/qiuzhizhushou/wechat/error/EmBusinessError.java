@@ -25,6 +25,7 @@ public enum  EmBusinessError implements CommonError
 
     USER_EXISTED_ERROR(20003, "用户已存在"),
 
+    ARTICLE_NOT_EXIST_ERROR(20004, "文章不存在"),
 
     NO_LOGGING_ERROR(400401, "请先登入"),
 

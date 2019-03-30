@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 @Service
 public class Api
@@ -30,7 +31,8 @@ public class Api
     public byte[] tts(String content) throws BusinessException
     {
         AipSpeech client = new AipSpeech(appid, appkey, secret);
-        TtsResponse res = client.synthesis(content, "zh", 1, null);
+        HashMap<String, Object> options = new HashMap<String, Object>();
+        TtsResponse res = client.synthesis(content, "zh", 1, options);
         byte[] data = res.getData();
         JSONObject res1 = res.getResult();
         if (res1 != null) {

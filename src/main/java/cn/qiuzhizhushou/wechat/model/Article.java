@@ -83,6 +83,8 @@ public class Article extends Base
         String articleContent = content.replaceAll( "(?i)\\<br\\s*\\/\\s*\\>", "\n");
 //        articleContent = articleContent.replaceAll("<([^>]+)>[\\d\\D]*<\\/\\1>", "");
         articleContent = articleContent.replaceAll("<([^>]+)>", "\n");
+        articleContent = articleContent.replaceAll("\\(([^\\(]+\\))", "\n");
+        articleContent = articleContent.replaceAll("（[^）]+）", "\n");
         articleContent = articleContent.replaceAll("\n(\\s)*\n", "\n");
         return articleContent;
     }
