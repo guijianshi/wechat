@@ -55,8 +55,9 @@ public class QuoteController extends BaseController
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public JsonResponse list(@RequestParam(defaultValue = "10") int num)
+	public JsonResponse list(@RequestParam(defaultValue = "30") int num)
 	{
+	    num = num > 50 || num < 5 ? 50 : num;
 		java.util.Random random = new java.util.Random();
 		int[] ids = new int[num];
 		for (int i = 0; i < num; i++) {
