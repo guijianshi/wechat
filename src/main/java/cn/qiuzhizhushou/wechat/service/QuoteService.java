@@ -17,28 +17,34 @@ import java.util.Random;
 @Service
 public class QuoteService
 {
-    @Autowired
-    QuoteMapper quoteMapper;
+	@Autowired
+	QuoteMapper quoteMapper;
 
-    public Quote findById(int id)
-    {
-        return quoteMapper.findById(id);
-    }
+	public Quote findById(int id)
+	{
+		return quoteMapper.findById(id);
+	}
 
-    public List<Quote> findByArticleId(int articleId)
-    {
-        return quoteMapper.findByArticleId(articleId);
-    }
+	public List<Quote> findByArticleId(int articleId)
+	{
+		return quoteMapper.findByArticleId(articleId);
+	}
 
 
-    /**
-     * 随机取一个名言
-     * @return 名言
-     */
-    public Quote findOneByRand()
-    {
-        Random random = new Random();
-        int id = random.nextInt(100) + 1;
-        return quoteMapper.findById(id);
-    }
+	/**
+	 * 随机取一个名言
+	 *
+	 * @return 名言
+	 */
+	public Quote findOneByRand()
+	{
+		Random random = new Random();
+		int id = random.nextInt(5000) + 1;
+		return quoteMapper.findById(id);
+	}
+
+	public List<Quote> selectByIds(int[] ids)
+	{
+		return quoteMapper.selectByIds(ids);
+	}
 }

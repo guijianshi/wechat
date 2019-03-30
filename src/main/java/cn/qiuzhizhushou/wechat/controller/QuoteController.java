@@ -7,10 +7,7 @@ import cn.qiuzhizhushou.wechat.model.Quote;
 import cn.qiuzhizhushou.wechat.response.JsonResponse;
 import cn.qiuzhizhushou.wechat.service.QuoteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,37 +21,58 @@ import java.util.List;
 @RequestMapping("wechat/quote")
 public class QuoteController extends BaseController
 {
-    @Autowired
-    QuoteService quoteService;
+	private static long expire = 0;
 
-    @RequestMapping(value = "/{id}")
-    public JsonResponse findById(@PathVariable int id) throws BusinessException
-    {
-        Quote quote = quoteService.findById(id);
-        if (null == quote) {
-            throw new BusinessException(EmBusinessError.QUOTE_NOT_EXIST_ERROR);
-        }
-        return JsonResponse.success(quote);
-    }
+	private static QuoteAuthorAndArticle quoteAuthorAndArticle;
 
-    @RequestMapping(value = "/random", method = RequestMethod.GET)
-    public JsonResponse findOneByRand() throws BusinessException
-    {
-        Quote quote = quoteService.findOneByRand();
-        if (null == quote) {
-            throw new BusinessException(EmBusinessError.QUOTE_NOT_EXIST_ERROR);
-        }
-        QuoteAuthorAndArticle quoteAuthorAndArticle = new QuoteAuthorAndArticle(quote);
-        return JsonResponse.success(quoteAuthorAndArticle);
-    }
+	@Autowired
+	QuoteService quoteService;
 
-    @RequestMapping(value = "/findByArticleId/{articleId}", method = RequestMethod.GET)
-    public JsonResponse findByArticleId(@PathVariable int articleId) throws BusinessException
-    {
-        List<Quote> quotes = quoteService.findByArticleId(articleId);
-        if (null == quotes) {
-            throw new BusinessException(EmBusinessError.QUOTE_NOT_EXIST_ERROR);
-        }
-        return JsonResponse.success(quotes);
-    }
+	@RequestMapping(value = "/{id}")
+	public JsonResponse findById(@PathVariable int id) throws BusinessException
+	{
+		Quote quote = quoteService.findById(id);
+		if (null == quote) {
+			throw new BusinessException(EmBusinessError.QUOTE_NOT_EXIST_ERROR);
+		}
+		return JsonResponse.success(quote);
+	}
+
+	@RequestMapping(value = "/random", method = RequestMethod.GET)
+	public JsonResponse findOneByRand() throws BusinessException
+	{
+		long time = System.currentTimeMillis();
+		if (expire > time) {
+			return JsonResponse.success(quoteAuthorAndArticle);
+		}
+		Quote quote = quoteService.findOneByRand();
+		if (null == quote) {
+			throw new BusinessException(EmBusinessError.QUOTE_NOT_EXIST_ERROR);
+		}
+		quoteAuthorAndArticle = new QuoteAuthorAndArticle(quote);
+		expire = time + 3600 * 1000;
+		return JsonResponse.success(quoteAuthorAndArticle);
+	}
+
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public JsonResponse list(@RequestParam(defaultValue = "30") int num)
+	{
+	    num = num > 50 || num < 5 ? 50 : num;
+		java.util.Random random = new java.util.Random();
+		int[] ids = new int[num];
+		for (int i = 0; i < num; i++) {
+			ids[i] = random.nextInt(7000);
+		}
+		return JsonResponse.success(quoteService.selectByIds(ids));
+	}
+
+	@RequestMapping(value = "/findByArticleId/{articleId}", method = RequestMethod.GET)
+	public JsonResponse findByArticleId(@PathVariable int articleId) throws BusinessException
+	{
+		List<Quote> quotes = quoteService.findByArticleId(articleId);
+		if (null == quotes) {
+			throw new BusinessException(EmBusinessError.QUOTE_NOT_EXIST_ERROR);
+		}
+		return JsonResponse.success(quotes);
+	}
 }

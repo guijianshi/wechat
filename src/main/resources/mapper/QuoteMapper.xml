@@ -7,6 +7,17 @@
     <select id="findById" resultMap="quoteWithArticleAndAuthor">
         select * from quote where id=#{id}
     </select>
+    <select id="selectByIds" resultType="cn.qiuzhizhushou.wechat.model.Quote">
+        select quote.*, quote.content, author.name 'author.name',
+          article.title 'article.title', article.type 'article.type'
+        from quote, author, article
+        where quote.author_id = author.id
+          and quote.article_id = article.id
+          and quote.id in
+        <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
     <resultMap id="quoteWithArticleAndAuthor" type="cn.qiuzhizhushou.wechat.model.Quote">
         <association property="author" column="author_id"
                      select="cn.qiuzhizhushou.wechat.mapper.AuthorMapper.findById"

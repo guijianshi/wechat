@@ -14,11 +14,11 @@ import java.util.Map;
  */
 public interface ArticleCollectionMapper
 {
-    ArticleCollection findByUidAndArticleId(@Param(value = "userId") int userId, @Param(value = "articleId") int articleId);
+	ArticleCollection findByUidAndArticleId(@Param(value = "userId") int userId, @Param(value = "articleId") int articleId);
 
-    boolean save(ArticleCollection collection);
+	boolean save(ArticleCollection collection);
 
-    boolean update(ArticleCollection collection);
+	boolean update(ArticleCollection collection);
 
-    List<Map<String, Object>> list(@Param(value = "userId") int userId, @Param(value = "offset") int offset);
+	List<Map<String, Object>> list(@Param(value = "userId") int userId, @Param(value = "offset") int offset);
 }
