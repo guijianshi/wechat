@@ -41,7 +41,7 @@ public class AudioService
 
         File file = new File(path);
         if (!file.exists() || !file.isDirectory()) {
-            file.mkdir();
+            file.mkdirs();
         }
         return path + id + ".mp3";
     }
