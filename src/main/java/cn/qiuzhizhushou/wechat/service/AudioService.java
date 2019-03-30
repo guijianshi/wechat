@@ -1,11 +1,10 @@
 package cn.qiuzhizhushou.wechat.service;
 
-import cn.qiuzhizhushou.wechat.model.Quote;
-import cn.qiuzhizhushou.wechat.service.baidu.Api;
 import cn.qiuzhizhushou.wechat.util.PathUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
+
+import java.io.File;
 
 
 @Service
@@ -19,9 +18,9 @@ public class AudioService
     private String articlePath = "/static/audio/article/";
 
 
-    public String getQuotePath(int id)
+    private String getQuotePath()
     {
-        return PathUtil.pathRoot + this.quotePath + id + ".mp3";
+        return PathUtil.pathRoot + this.quotePath;
     }
 
     // 根据资源类型获取资源应当存储的位置
@@ -30,20 +29,25 @@ public class AudioService
         String path;
         switch (type) {
             case "quote":
-                path = getQuotePath(id);
+                path = getQuotePath();
                 break;
             case "article":
-                path = getArticlePath(id);
+                path = getArticlePath();
                 break;
             default:
-                path = getQuotePath(id);
+                path = getQuotePath();
                 break;
         }
-        return path;
+
+        File file = new File(path);
+        if (!file.exists() || !file.isDirectory()) {
+            file.mkdir();
+        }
+        return path + id + ".mp3";
     }
 
-    private String getArticlePath(int id)
+    private String getArticlePath()
     {
-        return PathUtil.pathRoot + this.articlePath + id + ".mp3";
+        return PathUtil.pathRoot + this.articlePath;
     }
 }
