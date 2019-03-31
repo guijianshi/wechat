@@ -40,7 +40,7 @@ public class AudioController extends BaseController
     @Autowired
     Api api;
 
-    @GetMapping("/{type}/{id}")
+    @GetMapping("/{type}/{id}.mp3")
     public Object get(@PathVariable String type, @PathVariable int id) throws BusinessException
     {
         if (!"quote".equals(type) && !"article".equals(type)) {
@@ -62,7 +62,7 @@ public class AudioController extends BaseController
                     if (null == article) {
                         throw new BusinessException(EmBusinessError.ARTICLE_NOT_EXIST_ERROR);
                     }
-                    content = article.getContent();
+                    content = article.getTitle() + "。" + article.getAuthor().getName() + "。" + article.getContent();
                 }
                 if (content.length() == 0) {
                     throw new BusinessException(EmBusinessError.ARTICLE_NOT_EXIST_ERROR);
