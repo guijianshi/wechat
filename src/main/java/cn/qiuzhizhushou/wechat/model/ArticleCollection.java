@@ -17,7 +17,9 @@ public class ArticleCollection extends Base
 
 	private Integer userId;
 
-	private Integer articleId;
+	private Integer targetId;
+
+	private Integer type;
 
 	private Integer status;
 
@@ -33,11 +35,13 @@ public class ArticleCollection extends Base
 	{
 	}
 
-	public ArticleCollection(Integer userId, Integer articleId)
+	public ArticleCollection(int userId, int targetId, int type)
 	{
 		this.userId = userId;
-		this.articleId = articleId;
+		this.targetId = targetId;
+		this.type = type;
 		createdAt = new Date();
+		updatedAt = new Date();
 		status = 1;
 	}
 
@@ -61,14 +65,24 @@ public class ArticleCollection extends Base
 		this.userId = userId;
 	}
 
-	public Integer getArticleId()
+	public Integer getTargetId()
 	{
-		return articleId;
+		return targetId;
 	}
 
-	public void setArticleId(Integer articleId)
+	public void setTargetId(Integer targetId)
 	{
-		this.articleId = articleId;
+		this.targetId = targetId;
+	}
+
+	public Integer getType()
+	{
+		return type;
+	}
+
+	public void setType(Integer type)
+	{
+		this.type = type;
 	}
 
 	public Integer getStatus()

@@ -5,19 +5,20 @@ import lombok.Getter;
 /**
  * Created by IDEA.
  * User: mc
- * Date: 19/3/29
- * Time: 下午5:03
+ * Date: 19/4/1
+ * Time: 下午5:30
  */
 @Getter
-public enum CollectionType
+public enum CollectionTypeEnum
 {
-	ARTICLE(0, "文章"),
-	QUOTE(1, "名句"),;
-	private int code;
+	ARTICLE(1, "文章"),
+	QUOTE(2, "名言"),;
+
+	private Integer code;
 
 	private String message;
 
-	CollectionType(int code, String message)
+	CollectionTypeEnum(Integer code, String message)
 	{
 		this.code = code;
 		this.message = message;

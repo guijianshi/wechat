@@ -2,6 +2,7 @@ package cn.qiuzhizhushou.wechat.service;
 
 import cn.qiuzhizhushou.wechat.mapper.ArticleCollectionMapper;
 import cn.qiuzhizhushou.wechat.model.ArticleCollection;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,11 @@ public class ArticleCollectionService
 		return articleCollectionMapper.findByUidAndArticleId(userId, articleId);
 	}
 
+	public ArticleCollection findByUidAndTypeAndTargetId(int userId, int type, int targetId)
+	{
+		return articleCollectionMapper.findByUidAndTypeAndTargetId(userId, type, targetId);
+	}
+
 	public boolean isCollected(int userId, int articleId)
 	{
 		ArticleCollection articleCollection = findByUidAndArticleId(userId, articleId);
@@ -42,8 +48,8 @@ public class ArticleCollectionService
 		return articleCollectionMapper.update(collection);
 	}
 
-	public List<Map<String, Object>> list(int userId, int offset)
+	public List<Map<String, Object>> articleList(int userId, int offset)
 	{
-		return articleCollectionMapper.list(userId, offset);
+		return articleCollectionMapper.articleList(userId, offset);
 	}
 }

@@ -20,5 +20,9 @@ public interface ArticleCollectionMapper
 
 	boolean update(ArticleCollection collection);
 
-	List<Map<String, Object>> list(@Param(value = "userId") int userId, @Param(value = "offset") int offset);
+	List<Map<String, Object>> articleList(@Param(value = "userId") int userId, @Param(value = "offset") int offset);
+
+	ArticleCollection findByUidAndTypeAndTargetId(@Param(value = "userId") int userId,
+												  @Param(value = "type") int type,
+												  @Param(value = "targetId") int targetId);
 }
