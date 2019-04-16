@@ -6,6 +6,7 @@ import cn.qiuzhizhushou.wechat.error.EmBusinessError;
 import cn.qiuzhizhushou.wechat.model.Quote;
 import cn.qiuzhizhushou.wechat.response.JsonResponse;
 import cn.qiuzhizhushou.wechat.service.QuoteService;
+import cn.qiuzhizhushou.wechat.util.VOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,10 @@ public class QuoteController extends BaseController
 	private static QuoteAuthorAndArticle quoteAuthorAndArticle;
 
 	@Autowired
-	QuoteService quoteService;
+	private QuoteService quoteService;
+
+	@Autowired
+	private VOUtil voUtil;
 
 	@RequestMapping(value = "/{id}")
 	public JsonResponse findById(@PathVariable int id) throws BusinessException
@@ -63,7 +67,7 @@ public class QuoteController extends BaseController
 		for (int i = 0; i < num; i++) {
 			ids[i] = random.nextInt(7000);
 		}
-		return JsonResponse.success(quoteService.selectByIds(ids));
+		return JsonResponse.success(voUtil.trans(quoteService.selectByIds(ids)));
 	}
 
 	@RequestMapping(value = "/findByArticleId/{articleId}", method = RequestMethod.GET)

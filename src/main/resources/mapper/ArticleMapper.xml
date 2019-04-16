@@ -9,7 +9,8 @@
         <result column="content" property="content"></result>
     </resultMap>
     <select id="list" resultType="cn.qiuzhizhushou.wechat.model.Article">
-        select article.id, article.title, article.content, author.name as 'author.name', author.dynasty as 'author.dynasty'
+        select article.id, article.title, article.content, author.name as 'author.name', author.dynasty as
+        'author.dynasty'
         from article , author
         where article.author_id = author.id limit 10
     </select>
@@ -20,17 +21,17 @@
     <select id="search" resultType="cn.qiuzhizhushou.wechat.model.Article">
         select article.id, article.title, author.name as 'author.name', author.dynasty as 'author.dynasty'
         from article , author
-        where article.author_id = author.id and article.title like  CONCAT('%',#{value},'%')  limit 10
+        where article.author_id = author.id and article.title like CONCAT('%',#{value},'%') limit 10
     </select>
 
     <!-- 根据作者id获取文章列表 -->
     <select id="selectByAuthorId" resultType="cn.qiuzhizhushou.wechat.model.Article">
         select
-          article.id, article.title, article.content, author.name as 'author.name', author.dynasty as 'author.dynasty'
+        article.id, article.title, article.content, author.name as 'author.name', author.dynasty as 'author.dynasty'
         from
-          article , author
+        article , author
         where article.author_id = author.id
-          and author.id = #{authorId}
+        and author.id = #{authorId}
         limit #{offset}, 10
 
     </select>
@@ -38,10 +39,10 @@
     <!-- 根据id数组获取文章 -->
     <select id="selectByIds" resultType="cn.qiuzhizhushou.wechat.model.Article">
         select
-          article.id, article.title, article.content, author.name as 'author.name', author.dynasty as 'author.dynasty'
+        article.id, article.title, article.content, author.name as 'author.name', author.dynasty as 'author.dynasty'
         from article , author
         where article.author_id = author.id
-          and article.id in
+        and article.id in
         <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">
             #{item}
         </foreach>
@@ -50,11 +51,11 @@
     <!-- 根据标签id获取文章列表 -->
     <select id="selectByTagId" resultType="cn.qiuzhizhushou.wechat.model.Article">
         select
-          article.id, article.title, article.content, author.name as 'author.name', author.dynasty as 'author.dynasty'
+        article.id, article.title, article.content, author.name as 'author.name', author.dynasty as 'author.dynasty'
         from
-          article, author, article_tag_map
+        article, author, article_tag_map
         where article.author_id = author.id and article.id = article_tag_map.article_id
-          and article_tag_map.tag_id = #{tagId}
+        and article_tag_map.tag_id = #{tagId}
         limit #{offset}, 10
     </select>
 

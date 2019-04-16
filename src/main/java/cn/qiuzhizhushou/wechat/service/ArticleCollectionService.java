@@ -18,38 +18,38 @@ import java.util.Map;
 @Service
 public class ArticleCollectionService
 {
-	@Autowired
-	ArticleCollectionMapper articleCollectionMapper;
+    @Autowired
+    ArticleCollectionMapper articleCollectionMapper;
 
-	public ArticleCollection findByUidAndArticleId(int userId, int articleId)
-	{
-		return articleCollectionMapper.findByUidAndArticleId(userId, articleId);
-	}
+    public ArticleCollection findByUidAndTypeAndTargetId(int userId, int type, int targetId)
+    {
+        return articleCollectionMapper.findByUidAndTypeAndTargetId(userId, type, targetId);
+    }
 
-	public ArticleCollection findByUidAndTypeAndTargetId(int userId, int type, int targetId)
-	{
-		return articleCollectionMapper.findByUidAndTypeAndTargetId(userId, type, targetId);
-	}
+    public boolean isCollected(int userId, int type, int targetId)
+    {
+        ArticleCollection articleCollection = findByUidAndTypeAndTargetId(userId, type, targetId);
 
-	public boolean isCollected(int userId, int articleId)
-	{
-		ArticleCollection articleCollection = findByUidAndArticleId(userId, articleId);
+        return null != articleCollection && articleCollection.isCollected();
+    }
 
-		return null != articleCollection && articleCollection.isCollected();
-	}
+    public boolean save(ArticleCollection collection)
+    {
+        return articleCollectionMapper.save(collection);
+    }
 
-	public boolean save(ArticleCollection collection)
-	{
-		return articleCollectionMapper.save(collection);
-	}
+    public boolean update(ArticleCollection collection)
+    {
+        return articleCollectionMapper.update(collection);
+    }
 
-	public boolean update(ArticleCollection collection)
-	{
-		return articleCollectionMapper.update(collection);
-	}
+    public List<Map<String, Object>> articleList(int userId, int offset)
+    {
+        return articleCollectionMapper.articleList(userId, offset);
+    }
 
-	public List<Map<String, Object>> articleList(int userId, int offset)
-	{
-		return articleCollectionMapper.articleList(userId, offset);
-	}
+    public List<Map<String, Object>> quoteList(int userId, int offset)
+    {
+        return articleCollectionMapper.quoteList(userId, offset);
+    }
 }

@@ -9,11 +9,11 @@
     </select>
     <select id="selectByIds" resultType="cn.qiuzhizhushou.wechat.model.Quote">
         select quote.*, quote.content, author.name 'author.name',
-          article.title 'article.title', article.type 'article.type'
+        article.title 'article.title', article.type 'article.type'
         from quote, author, article
         where quote.author_id = author.id
-          and quote.article_id = article.id
-          and quote.id in
+        and quote.article_id = article.id
+        and quote.id in
         <foreach collection="ids" item="item" index="index" open="(" separator="," close=")">
             #{item}
         </foreach>
@@ -22,10 +22,10 @@
         <association property="author" column="author_id"
                      select="cn.qiuzhizhushou.wechat.mapper.AuthorMapper.findById"
                      fetchType="lazy"
-        > </association>
+        ></association>
         <association property="article" column="article_id"
                      select="cn.qiuzhizhushou.wechat.mapper.ArticleMapper.findById"
                      fetchType="lazy"
-        > </association>
+        ></association>
     </resultMap>
 </mapper>

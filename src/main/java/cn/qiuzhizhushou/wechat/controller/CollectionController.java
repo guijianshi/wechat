@@ -26,20 +26,6 @@ public class CollectionController extends BaseController
 	@Autowired
 	ArticleCollectionService articleCollectionService;
 
-
-	/**
-	 * 添加收藏
-	 *
-	 * @param articleId
-	 * @return
-	 * @throws BusinessException
-	 */
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public JsonResponse add(@RequestParam() int articleId) throws BusinessException
-	{
-		return this.add("article", articleId);
-	}
-
 	/**
 	 * 取消收藏
 	 *
@@ -47,12 +33,12 @@ public class CollectionController extends BaseController
 	 * @return
 	 * @throws BusinessException
 	 */
-	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
-	public JsonResponse cancel(@RequestParam() int articleId) throws BusinessException
+	@RequestMapping(value = "/{typeStr}/cancel", method = RequestMethod.POST)
+	public JsonResponse cancel(@PathVariable String typeStr, @RequestParam() int targetId) throws BusinessException
 	{
 		int userId = Token.getUserId();
-
-		ArticleCollection collection = articleCollectionService.findByUidAndArticleId(userId, articleId);
+		int type = getType(typeStr);
+		ArticleCollection collection = articleCollectionService.findByUidAndTypeAndTargetId(userId, type, targetId);
 		if (null == collection || !collection.isCollected()) {
 			throw new BusinessException(EmBusinessError.COLLECTION_NOT_EXISTED_ERROR);
 		}
@@ -67,15 +53,16 @@ public class CollectionController extends BaseController
 	/**
 	 * 是否收藏文章
 	 *
-	 * @param articleId 文章号
+	 * @param typeStr 类型
+	 * @param targetId 文章号
 	 * @return
 	 */
-	@RequestMapping(value = "/isCollected", method = RequestMethod.GET)
-	public JsonResponse isCollected(@RequestParam() int articleId)
+	@RequestMapping(value = "/{typeStr}/isCollected", method = RequestMethod.GET)
+	public JsonResponse isCollected(@PathVariable String typeStr, @RequestParam() int targetId) throws BusinessException
 	{
 		int userId = Token.getUserId();
-
-		boolean isCollected = articleCollectionService.isCollected(userId, articleId);
+		int type = getType(typeStr);
+		boolean isCollected = articleCollectionService.isCollected(userId, type, targetId);
 		Map<String, Object> data = new HashMap<>();
 		data.put("isCollected", isCollected);
 		return JsonResponse.success(data);
@@ -84,27 +71,64 @@ public class CollectionController extends BaseController
 	/**
 	 * 收藏列表
 	 *
-	 * @param page
+	 * @param page 页码
 	 * @return
 	 */
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public JsonResponse list(@RequestParam(defaultValue = "1") int page)
+	@RequestMapping(value = "/{typeStr}/list", method = RequestMethod.GET)
+	public JsonResponse list(@PathVariable String typeStr, @RequestParam(defaultValue = "1") int page) throws BusinessException
 	{
+		int type = getType(typeStr);
 		int userId = Token.getUserId();
 		int offset = getOffset(page);
-		return JsonResponse.success(articleCollectionService.articleList(userId, offset));
+		if (type == CollectionTypeEnum.ARTICLE.getCode()) {
+			return JsonResponse.success(articleCollectionService.articleList(userId, offset));
+		} else {
+			return JsonResponse.success(articleCollectionService.quoteList(userId, offset));
+		}
 	}
 
 	/**
 	 * 添加收藏
 	 *
 	 * @param typeStr  article, quote
-	 * @param targetId
+	 * @param targetId 目标主键
 	 * @return
 	 * @throws BusinessException
 	 */
-	@RequestMapping(value = "/add/{typeStr}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{typeStr}/add", method = RequestMethod.POST)
 	public JsonResponse add(@PathVariable String typeStr, @RequestParam int targetId) throws BusinessException
+	{
+		int type = getType(typeStr);
+		int userId = Token.getUserId();
+
+		ArticleCollection collection = articleCollectionService.findByUidAndTypeAndTargetId(userId, type, targetId);
+		boolean flag;
+		if (null != collection) {
+			if (collection.isCollected()) {
+				throw new BusinessException(EmBusinessError.ALREADY_COLLECTED_ERROR);
+			} else {
+				collection.setActive();
+				flag = articleCollectionService.update(collection);
+			}
+		} else {
+			collection = new ArticleCollection(userId, targetId, type);
+			flag = articleCollectionService.save(collection);
+		}
+
+		if (!flag) {
+			throw new BusinessException(EmBusinessError.ADD_COLLECTION_ERROR);
+		}
+		return JsonResponse.success(null);
+	}
+
+	/**
+	 * 获取请求收藏类型
+	 *
+	 * @param typeStr
+	 * @return
+	 * @throws BusinessException
+	 */
+	private int getType(String typeStr) throws BusinessException
 	{
 		if (!"article".equals(typeStr) && !"quote".equals(typeStr)) {
 			throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
@@ -121,25 +145,6 @@ public class CollectionController extends BaseController
 				throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
 
 		}
-		int userId = Token.getUserId();
-
-		ArticleCollection collection = articleCollectionService.findByUidAndTypeAndTargetId(userId, type, targetId);
-		boolean flag;
-		if (null != collection) {
-			if (collection.isCollected()) {
-				throw new BusinessException(EmBusinessError.ALREADY_COLLECTED_ERROR);
-			} else {
-				collection.setActive();
-				flag = articleCollectionService.update(collection);
-			}
-		} else {
-			collection = new ArticleCollection(userId, targetId, CollectionTypeEnum.ARTICLE.getCode());
-			flag = articleCollectionService.save(collection);
-		}
-
-		if (!flag) {
-			throw new BusinessException(EmBusinessError.ADD_COLLECTION_ERROR);
-		}
-		return JsonResponse.success(null);
+		return type;
 	}
 }

@@ -1,6 +1,8 @@
 package cn.qiuzhizhushou.wechat.model;
 
+import cn.qiuzhizhushou.wechat.enums.CollectionStatusEnum;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
 
 import java.util.Date;
 
@@ -11,6 +13,7 @@ import java.util.Date;
  * Time: 上午10:59
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Data
 public class ArticleCollection extends Base
 {
 	private Integer id;
@@ -42,111 +45,21 @@ public class ArticleCollection extends Base
 		this.type = type;
 		createdAt = new Date();
 		updatedAt = new Date();
-		status = 1;
-	}
-
-	public Integer getId()
-	{
-		return id;
-	}
-
-	public void setId(Integer id)
-	{
-		this.id = id;
-	}
-
-	public Integer getUserId()
-	{
-		return userId;
-	}
-
-	public void setUserId(Integer userId)
-	{
-		this.userId = userId;
-	}
-
-	public Integer getTargetId()
-	{
-		return targetId;
-	}
-
-	public void setTargetId(Integer targetId)
-	{
-		this.targetId = targetId;
-	}
-
-	public Integer getType()
-	{
-		return type;
-	}
-
-	public void setType(Integer type)
-	{
-		this.type = type;
-	}
-
-	public Integer getStatus()
-	{
-		return status;
-	}
-
-	public void setStatus(Integer status)
-	{
-		this.status = status;
-	}
-
-	public Date getCreatedAt()
-	{
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt)
-	{
-		this.createdAt = createdAt;
-	}
-
-	public Date getUpdatedAt()
-	{
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(Date updatedAt)
-	{
-		this.updatedAt = updatedAt;
-	}
-
-	public Article getArticle()
-	{
-		return article;
-	}
-
-	public void setArticle(Article article)
-	{
-		this.article = article;
-	}
-
-	public User getUser()
-	{
-		return user;
-	}
-
-	public void setUser(User user)
-	{
-		this.user = user;
+		status = CollectionStatusEnum.ACTIVE.getCode();
 	}
 
 	public boolean isCollected()
 	{
-		return status == 1;
+		return status == CollectionStatusEnum.ACTIVE.getCode();
 	}
 
 	public void setActive()
 	{
-		status = 1;
+		status = CollectionStatusEnum.ACTIVE.getCode();
 	}
 
 	public void setCancel()
 	{
-		status = 2;
+		status = CollectionStatusEnum.CANCEL.getCode();
 	}
 }

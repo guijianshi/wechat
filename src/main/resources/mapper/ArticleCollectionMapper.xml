@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.qiuzhizhushou.wechat.mapper.ArticleCollectionMapper">
     <insert id="save" parameterType="cn.qiuzhizhushou.wechat.model.ArticleCollection">
-        insert into collection(article_id, user_id, status, created_at)
-        value (#{articleId}, #{userId}, #{status}, #{createdAt})
+        insert into collection(target_id, user_id, type, status, created_at)
+        value (#{targetId}, #{userId}, #{type}, #{status}, #{createdAt})
     </insert>
     <update id="update" parameterType="cn.qiuzhizhushou.wechat.model.ArticleCollection">
         update collection
@@ -22,24 +22,35 @@
         where user_id = #{userId} and article_id = #{articleId} limit 1
     </select>
     <select id="articleList" resultType="java.util.Map">
-        select c.target_id article, a.title, au.name, au.dynasty
+        select c.target_id article_id, a.title, au.name, au.dynasty
         from
-          collection c
+        collection c
         inner join article a on c.target_id = a.id
         left join author au on au.id = a.author_id
         where
-          user_id = #{userId} and status = 1 and c.type = 1
+        user_id = #{userId} and status = 1 and c.type = 1
         order
-          by c.id desc
+        by c.id desc
         limit
-          #{offset}, 10
+        #{offset}, 10
     </select>
     <select id="findByUidAndTypeAndTargetId" resultType="cn.qiuzhizhushou.wechat.model.ArticleCollection">
-        select *
+        select c.*
         from collection c
-        inner join quote q on c.type = 2 and c.target_id = q.id
-        inner join article a on c.type = 1 and c.target_id = a.id
-        where c.user_id = #{userId} and c.targetId = #{targetId} and c.type = #{type}
+        where c.user_id = #{userId} and c.target_id = #{targetId} and c.type = #{type}
         limit 1
+    </select>
+    <select id="quoteList" resultType="java.util.Map">
+        select q.id quote, q.content, au.name, au.dynasty
+        from
+        collection c
+        inner join quote q on c.target_id = q.id
+        left join author au on au.id = q.author_id
+        where
+        user_id = #{userId} and status = 1 and c.type = 2
+        order
+        by c.id desc
+        limit
+        #{offset}, 10
     </select>
 </mapper>

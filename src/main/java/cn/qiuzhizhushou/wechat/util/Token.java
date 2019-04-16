@@ -24,6 +24,7 @@ public class Token
 
     /**
      * 一个月有效期token
+     *
      * @param user
      * @return
      */
@@ -34,6 +35,15 @@ public class Token
                 .addClaim("nickname", user.getNickname())
                 .setExpiresAt(TokenParam.getAfterDate(null, 0, 6, 0, 0, 0, 0));
         return tokenParam;
+    }
 
+    /**
+     * 是否登入
+     *
+     * @return
+     */
+    public static boolean isLogin()
+    {
+        return null != userId;
     }
 }

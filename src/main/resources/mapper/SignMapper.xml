@@ -19,22 +19,22 @@
     </select>
     <select id="getRankToday" resultType="cn.qiuzhizhushou.wechat.model.Sign">
         select
-          sign.id, sign.created_at, user.id as 'user.id',
-          user.nickname as 'user.nickname', user.avatar_url as 'user.avatarUrl'
+        sign.id, sign.created_at, user.id as 'user.id',
+        user.nickname as 'user.nickname', user.avatar_url as 'user.avatarUrl'
         from sign, user
         where
-          sign.user_id = user.id and
-          sign.created_at &gt; DATE_FORMAT(NOW(),'%Y-%m-%d')
+        sign.user_id = user.id and
+        sign.created_at &gt; DATE_FORMAT(NOW(),'%Y-%m-%d')
         order by
-          sign.id asc
+        sign.id asc
         limit 20
     </select>
     <select id="monthSignNumOfDays" resultType="java.lang.Integer">
         select count(id)
         from sign
         where
-          created_at >  DATE_FORMAT(NOW(),'%Y-%m')
-          and user_id = #{userId}
+        created_at > DATE_FORMAT(NOW(),'%Y-%m')
+        and user_id = #{userId}
     </select>
 
     <resultMap id="signWithUser" type="cn.qiuzhizhushou.wechat.model.Sign">

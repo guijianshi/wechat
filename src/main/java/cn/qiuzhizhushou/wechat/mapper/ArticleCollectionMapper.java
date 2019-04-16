@@ -25,4 +25,6 @@ public interface ArticleCollectionMapper
 	ArticleCollection findByUidAndTypeAndTargetId(@Param(value = "userId") int userId,
 												  @Param(value = "type") int type,
 												  @Param(value = "targetId") int targetId);
+
+	List<Map<String, Object>> quoteList(@Param(value = "userId") int userId, @Param(value = "offset") int offset);
 }

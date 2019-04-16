@@ -6,6 +6,7 @@ import cn.qiuzhizhushou.wechat.model.Sign;
 import cn.qiuzhizhushou.wechat.response.JsonResponse;
 import cn.qiuzhizhushou.wechat.service.SignService;
 import cn.qiuzhizhushou.wechat.util.Token;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +24,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("wechat/sign")
+@Slf4j
 public class SignController extends BaseController
 {
     @Autowired
@@ -35,6 +37,7 @@ public class SignController extends BaseController
         if (0 == userId) {
             throw new BusinessException(EmBusinessError.NO_LOGGING_ERROR);
         }
+        log.info(userId + "已签到");
         if (null != signService.findByUidToday(userId)) {
             throw new BusinessException(EmBusinessError.ALREADY_SIGNED_ERROR);
         }
