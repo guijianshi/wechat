@@ -42,7 +42,7 @@ public class ArticleController extends BaseController
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public JsonResponse search(@RequestParam String value)
     {
-        List<Article> articles = articleService.search("%" + value + "%");
+        List<Article> articles = articleService.search(value);
         return JsonResponse.success(articles);
     }
 
