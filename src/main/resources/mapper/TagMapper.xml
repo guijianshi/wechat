@@ -8,6 +8,6 @@
     <select id="getHotTag" resultType="cn.qiuzhizhushou.wechat.model.Tag">
         select *
         from tag
-        where id in (2, 15, 53, 69)
+        where id in (2, 15, 53, 64, 69, 74)
     </select>
 </mapper>
